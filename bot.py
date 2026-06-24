@@ -13,7 +13,7 @@ from telegram.ext import Application, CommandHandler, CallbackQueryHandler, Cont
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-TOKEN = os.environ.get("8848240371:AAFKowkbPukud9ymubuXAhz1707N0zqt1jk")
+TOKEN = os.environ.get("TOKEN")
 DATABASE_URL = os.environ.get("DATABASE_URL")
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 TIMEZONE = pytz.timezone("Europe/Belgrade")
