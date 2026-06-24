@@ -1530,9 +1530,107 @@ async def quiz_review_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
     )
 
 
+async def lesson_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_user.id
+    await create_user(user_id, update.effective_user.username or "", update.effective_user.first_name or "")
+    user = await get_user(user_id)
+    if not user:
+        await update.message.reply_text("Напиши /start чтобы начать.")
+        return
+    week_idx = user["current_week"]
+    day_idx = user["current_day"]
+    lesson = get_current_lesson(week_idx, day_idx)
+    if not lesson:
+        await update.message.reply_text("Ты прошёл всю программу! Напиши /start.")
+        return
+    week = WEEKS[week_idx]
+    phrase = lesson["phrase"]
+    words_text = "\n".join([f"• *{en}* — {ru}" for en, ru in lesson["words"]])
+    dialogue_text = "\n".join([f"_{role}_: {line}" for role, line in lesson["dialogue"]])
+    text = (
+        f"📚 *{week['title']}*\n"
+        f"День {day_idx + 1}/5 — {lesson['topic']}\n\n"
+        f"*🔤 Слова дня:*\n{words_text}\n\n"
+        f"*🎬 Фраза из фильма:*\n"
+        f"_{phrase['text']}_\n"
+        f"📽 {phrase['movie']}\n"
+        f"💡 {phrase['meaning']}\n\n"
+        f"*💬 Диалог:*\n{dialogue_text}"
+    )
+    keyboard = [
+        [InlineKeyboardButton("🎯 Пройти тест по уроку", callback_data="quiz_lesson")],
+        [InlineKeyboardButton("⬅️ Назад", callback_data="menu")],
+    ]
+    await update.message.reply_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def quiz_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_user.id
+    user = await get_user(user_id)
+    if not user:
+        await update.message.reply_text("Напиши /start чтобы начать.")
+        return
+    lesson = get_current_lesson(user["current_week"], user["current_day"])
+    if not lesson:
+        await update.message.reply_text("Уроки закончились!")
+        return
+    quiz = generate_quiz(lesson)
+    keyboard = [[InlineKeyboardButton(opt, callback_data=f"answer_{opt}_{quiz['correct']}")] for opt in quiz["options"]]
+    keyboard.append([InlineKeyboardButton("⬅️ Меню", callback_data="menu")])
+    import json
+    await update_user(user_id, quiz_state=json.dumps({"correct": quiz["correct"]}))
+    await update.message.reply_text(
+        f"🎯 *Тест*\n\n{quiz['question']}\n\nВыбери правильный ответ:",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
+async def progress_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_user.id
+    user = await get_user(user_id)
+    if not user:
+        await update.message.reply_text("Напиши /start чтобы начать.")
+        return
+    xp = user["xp"]
+    level = get_level(xp)
+    level_name = LEVELS[level][1]
+    bar = xp_bar(xp)
+    total_words = (user["current_week"] * 5 + user["current_day"]) * 10
+    week_name = WEEKS[min(user["current_week"], len(WEEKS)-1)]["title"]
+    await update.message.reply_text(
+        f"📊 *Твой прогресс*\n\n"
+        f"{level_name}\n"
+        f"{bar}  {xp} XP\n\n"
+        f"🔥 Серия: {user['streak']} дн.\n"
+        f"📅 Всего дней: {user['total_days']}\n"
+        f"📚 Слов изучено: ~{total_words}\n\n"
+        f"📌 {week_name}\n"
+        f"День {user['current_day'] + 1}/5",
+        parse_mode="Markdown"
+    )
+
+async def leaderboard_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    rows = await get_leaderboard()
+    if not rows:
+        await update.message.reply_text("🏆 Лидерборд пока пустой.")
+        return
+    medals = ["🥇", "🥈", "🥉"] + ["4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟"]
+    lines = []
+    for i, row in enumerate(rows):
+        medal = medals[i] if i < len(medals) else f"{i+1}."
+        lines.append(f"{medal} *{row['first_name']}* — {row['xp']} XP | 🔥{row['streak']}дн")
+    await update.message.reply_text(
+        "🏆 *Лидерборд команды*\n\n" + "\n".join(lines),
+        parse_mode="Markdown"
+    )
+
+
 def main():
     app = Application.builder().token(TOKEN).post_init(post_init).build()
     app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("lesson", lesson_command))
+    app.add_handler(CommandHandler("quiz", quiz_command))
+    app.add_handler(CommandHandler("progress", progress_command))
+    app.add_handler(CommandHandler("leaderboard", leaderboard_command))
     app.add_handler(CallbackQueryHandler(lesson_handler, pattern="^lesson$"))
     app.add_handler(CallbackQueryHandler(quiz_handler, pattern="^quiz_lesson$"))
     app.add_handler(CallbackQueryHandler(quiz_handler, pattern="^quiz$"))
