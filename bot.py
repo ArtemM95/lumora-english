@@ -21,7 +21,6 @@ TIMEZONE = pytz.timezone("Europe/Belgrade")
 # ─── УЧЕБНЫЙ КОНТЕНТ ───────────────────────────────────────────────
 
 WEEKS = [
-    # НЕДЕЛЯ 1 — Знакомство и основы
     {
         "title": "Week 1 — Introductions & Basics",
         "days": [
@@ -39,16 +38,8 @@ WEEKS = [
                     ("Experience [икспириэнс]", "Опыт"),
                     ("Specialize in [спэшэлайз ин]", "Специализируюсь на"),
                 ],
-                "phrase": {
-                    "text": "You had me at hello.",
-                    "movie": "Jerry Maguire (1996)",
-                    "meaning": "Ты убедил меня с первого слова. Используй в переговорах: первое впечатление решает всё."
-                },
-                "dialogue": [
-                    ("You", "Hi, I'm Artem. I'm a video producer from Lumora Studio."),
-                    ("Client", "Nice to meet you, Artem. What do you specialize in?"),
-                    ("You", "I specialize in AI-powered video production for B2B companies."),
-                ]
+                "phrase": {"text": "You had me at hello.", "movie": "Jerry Maguire (1996)", "meaning": "Ты убедил меня с первого слова. Используй в переговорах: первое впечатление решает всё."},
+                "dialogue": [("You", "Hi, I'm Artem. I'm a video producer from Lumora Studio."), ("Client", "Nice to meet you, Artem. What do you specialize in?"), ("You", "I specialize in AI-powered video production for B2B companies.")]
             },
             {
                 "topic": "Your company & services",
@@ -64,16 +55,8 @@ WEEKS = [
                     ("Client [клайент]", "Клиент"),
                     ("Portfolio [портфолио]", "Портфолио"),
                 ],
-                "phrase": {
-                    "text": "Show me the money.",
-                    "movie": "Jerry Maguire (1996)",
-                    "meaning": "Покажи результат. В бизнесе: клиент хочет видеть реальную ценность, не слова."
-                },
-                "dialogue": [
-                    ("You", "We produce corporate videos and brand films."),
-                    ("Client", "What's your typical budget range?"),
-                    ("You", "It depends on the project. Can you share more about what you need?"),
-                ]
+                "phrase": {"text": "Show me the money.", "movie": "Jerry Maguire (1996)", "meaning": "Покажи результат. В бизнесе: клиент хочет видеть реальную ценность, не слова."},
+                "dialogue": [("You", "We produce corporate videos and brand films."), ("Client", "What's your typical budget range?"), ("You", "It depends on the project. Can you share more about what you need?")]
             },
             {
                 "topic": "First call essentials",
@@ -89,16 +72,8 @@ WEEKS = [
                     ("Discuss [дискас]", "Обсудить"),
                     ("Details [дитэйлз]", "Детали"),
                 ],
-                "phrase": {
-                    "text": "I'll make him an offer he can't refuse.",
-                    "movie": "The Godfather (1972)",
-                    "meaning": "Сделай предложение от которого не откажутся. В продажах: твой оффер должен быть настолько ценным, что отказ невозможен."
-                },
-                "dialogue": [
-                    ("You", "Could we schedule a call this week to discuss the details?"),
-                    ("Client", "Sure. I'm available Thursday at 3 PM CET."),
-                    ("You", "Perfect. I'll send a Zoom link right away."),
-                ]
+                "phrase": {"text": "I'll make him an offer he can't refuse.", "movie": "The Godfather (1972)", "meaning": "Сделай предложение от которого не откажутся. В продажах: твой оффер должен быть настолько ценным, что отказ невозможен."},
+                "dialogue": [("You", "Could we schedule a call this week to discuss the details?"), ("Client", "Sure. I'm available Thursday at 3 PM CET."), ("You", "Perfect. I'll send a Zoom link right away.")]
             },
             {
                 "topic": "Understanding client needs",
@@ -114,16 +89,8 @@ WEEKS = [
                     ("Milestone [майлстоун]", "Этап / Веха"),
                     ("Scope [скоуп]", "Объём работ"),
                 ],
-                "phrase": {
-                    "text": "What we've got here is failure to communicate.",
-                    "movie": "Cool Hand Luke (1967)",
-                    "meaning": "Проблема в коммуникации. В B2B: большинство провалов проектов — из-за плохо понятого брифа."
-                },
-                "dialogue": [
-                    ("You", "What's the main goal of this video?"),
-                    ("Client", "We want to explain our product to new customers."),
-                    ("You", "Got it. Who is your target audience?"),
-                ]
+                "phrase": {"text": "What we've got here is failure to communicate.", "movie": "Cool Hand Luke (1967)", "meaning": "Проблема в коммуникации. В B2B: большинство провалов проектов — из-за плохо понятого брифа."},
+                "dialogue": [("You", "What's the main goal of this video?"), ("Client", "We want to explain our product to new customers."), ("You", "Got it. Who is your target audience?")]
             },
             {
                 "topic": "Presenting your offer",
@@ -139,20 +106,11 @@ WEEKS = [
                     ("Offer [офэр]", "Предложение"),
                     ("Competitive [компэтитив]", "Конкурентный"),
                 ],
-                "phrase": {
-                    "text": "You're going to need a bigger boat.",
-                    "movie": "Jaws (1975)",
-                    "meaning": "Тебе нужен больший масштаб. В продажах: иногда нужно предложить клиенту более полное решение."
-                },
-                "dialogue": [
-                    ("You", "Our proposal includes the full video production package."),
-                    ("Client", "What exactly is included?"),
-                    ("You", "Script, filming, editing, and two rounds of revisions."),
-                ]
+                "phrase": {"text": "You're going to need a bigger boat.", "movie": "Jaws (1975)", "meaning": "Тебе нужен больший масштаб. В продажах: иногда нужно предложить клиенту более полное решение."},
+                "dialogue": [("You", "Our proposal includes the full video production package."), ("Client", "What exactly is included?"), ("You", "Script, filming, editing, and two rounds of revisions.")]
             },
         ]
     },
-    # НЕДЕЛЯ 2 — Переговоры и закрытие
     {
         "title": "Week 2 — Negotiations & Closing",
         "days": [
@@ -170,17 +128,8 @@ WEEKS = [
                     ("Confident [конфидэнт]", "Уверенный"),
                     ("Result [ризалт]", "Результат"),
                 ],
-                "phrase": {
-                    "text": "That's the most ridiculous thing I've ever heard.",
-                    "movie": "Suits (TV)",
-                    "meaning": "Так говорят когда слышат слабый аргумент. Учись отвечать на возражения уверенно, не агрессивно."
-                },
-                "dialogue": [
-                    ("Client", "Your price seems too high."),
-                    ("You", "I understand your concern. However, our AI pipeline cuts production time by 3x."),
-                    ("Client", "Can you prove that?"),
-                    ("You", "Absolutely. I can share case studies from similar projects."),
-                ]
+                "phrase": {"text": "That's the most ridiculous thing I've ever heard.", "movie": "Suits (TV)", "meaning": "Так говорят когда слышат слабый аргумент. Учись отвечать на возражения уверенно, не агрессивно."},
+                "dialogue": [("Client", "Your price seems too high."), ("You", "I understand your concern. However, our AI pipeline cuts production time by 3x."), ("Client", "Can you prove that?"), ("You", "Absolutely. I can share case studies from similar projects.")]
             },
             {
                 "topic": "Pricing conversations",
@@ -196,17 +145,8 @@ WEEKS = [
                     ("Terms [тёрмз]", "Условия"),
                     ("Per project [пэр проджект]", "За проект"),
                 ],
-                "phrase": {
-                    "text": "Money is not the only commodity that is fun to give.",
-                    "movie": "Wall Street (1987)",
-                    "meaning": "Ценность не только в деньгах. В переговорах: иногда быстрый срок или бонус важнее скидки."
-                },
-                "dialogue": [
-                    ("Client", "Can we get a discount?"),
-                    ("You", "Our rate is $3,000 per project. We include two revisions."),
-                    ("Client", "We were thinking more around $2,500."),
-                    ("You", "Let me see what we can do to make it work for both sides."),
-                ]
+                "phrase": {"text": "Money is not the only commodity that is fun to give.", "movie": "Wall Street (1987)", "meaning": "Ценность не только в деньгах. В переговорах: иногда быстрый срок или бонус важнее скидки."},
+                "dialogue": [("Client", "Can we get a discount?"), ("You", "Our rate is $3,000 per project. We include two revisions."), ("Client", "We were thinking more around $2,500."), ("You", "Let me see what we can do to make it work for both sides.")]
             },
             {
                 "topic": "Closing the deal",
@@ -222,16 +162,8 @@ WEEKS = [
                     ("Looking forward [лукинг форвэрд]", "С нетерпением жду"),
                     ("Pleasure [плэжэр]", "Удовольствие"),
                 ],
-                "phrase": {
-                    "text": "We're going to need you to go ahead and come in on Saturday.",
-                    "movie": "Office Space (1999)",
-                    "meaning": "Классика корпоративного давления. Знай как вежливо отказать или согласовать условия."
-                },
-                "dialogue": [
-                    ("You", "Are you ready to move forward?"),
-                    ("Client", "Yes, let's do it. What are the next steps?"),
-                    ("You", "I'll send the contract today. Once signed, we kick off on Monday."),
-                ]
+                "phrase": {"text": "We're going to need you to go ahead and come in on Saturday.", "movie": "Office Space (1999)", "meaning": "Классика корпоративного давления. Знай как вежливо отказать или согласовать условия."},
+                "dialogue": [("You", "Are you ready to move forward?"), ("Client", "Yes, let's do it. What are the next steps?"), ("You", "I'll send the contract today. Once signed, we kick off on Monday.")]
             },
             {
                 "topic": "Email & written communication",
@@ -247,16 +179,8 @@ WEEKS = [
                     ("Update [апдэйт]", "Обновление"),
                     ("Clarify [клэрифай]", "Уточнить"),
                 ],
-                "phrase": {
-                    "text": "You've got mail.",
-                    "movie": "You've Got Mail (1998)",
-                    "meaning": "Письма важны. В B2B: хорошо написанный follow-up email часто закрывает сделку."
-                },
-                "dialogue": [
-                    ("You", "Hi Sarah, as discussed, please find the proposal attached."),
-                    ("You", "Let me know if you have any questions. Looking forward to working together."),
-                    ("Client", "Thanks! I'll review it and get back to you by Friday."),
-                ]
+                "phrase": {"text": "You've got mail.", "movie": "You've Got Mail (1998)", "meaning": "Письма важны. В B2B: хорошо написанный follow-up email часто закрывает сделку."},
+                "dialogue": [("You", "Hi Sarah, as discussed, please find the proposal attached."), ("You", "Let me know if you have any questions. Looking forward to working together."), ("Client", "Thanks! I'll review it and get back to you by Friday.")]
             },
             {
                 "topic": "Building long-term relationships",
@@ -272,20 +196,11 @@ WEEKS = [
                     ("Loyalty [лойэлти]", "Лояльность"),
                     ("Collaboration [колэборэйшн]", "Сотрудничество"),
                 ],
-                "phrase": {
-                    "text": "It's not personal. It's strictly business.",
-                    "movie": "The Godfather (1972)",
-                    "meaning": "Бизнес отдельно от эмоций. Но в реальности: личные отношения делают бизнес крепче."
-                },
-                "dialogue": [
-                    ("You", "We really enjoyed working on this project with you."),
-                    ("Client", "Same here. The video turned out great."),
-                    ("You", "We'd love to collaborate again. Do you have upcoming projects?"),
-                ]
+                "phrase": {"text": "It's not personal. It's strictly business.", "movie": "The Godfather (1972)", "meaning": "Бизнес отдельно от эмоций. Но в реальности: личные отношения делают бизнес крепче."},
+                "dialogue": [("You", "We really enjoyed working on this project with you."), ("Client", "Same here. The video turned out great."), ("You", "We'd love to collaborate again. Do you have upcoming projects?")]
             },
         ]
     },
-    # НЕДЕЛЯ 3 — AI и технологии
     {
         "title": "Week 3 — AI & Tech Vocabulary",
         "days": [
@@ -303,16 +218,8 @@ WEEKS = [
                     ("Process [просэс]", "Процесс"),
                     ("Efficient [ифишэнт]", "Эффективный"),
                 ],
-                "phrase": {
-                    "text": "The machines are taking over.",
-                    "movie": "Terminator 2 (1991)",
-                    "meaning": "ИИ меняет правила. В твоём бизнесе: AI — это твоё конкурентное преимущество, не угроза."
-                },
-                "dialogue": [
-                    ("Client", "How do you use AI in your production?"),
-                    ("You", "We use AI to automate the editing workflow. It cuts delivery time by 60%."),
-                    ("Client", "That sounds impressive. Can you show me an example?"),
-                ]
+                "phrase": {"text": "The machines are taking over.", "movie": "Terminator 2 (1991)", "meaning": "ИИ меняет правила. В твоём бизнесе: AI — это твоё конкурентное преимущество, не угроза."},
+                "dialogue": [("Client", "How do you use AI in your production?"), ("You", "We use AI to automate the editing workflow. It cuts delivery time by 60%."), ("Client", "That sounds impressive. Can you show me an example?")]
             },
             {
                 "topic": "Tech & tools",
@@ -328,16 +235,8 @@ WEEKS = [
                     ("Version [вёржн]", "Версия"),
                     ("Format [формат]", "Формат"),
                 ],
-                "phrase": {
-                    "text": "Roads? Where we're going, we don't need roads.",
-                    "movie": "Back to the Future (1985)",
-                    "meaning": "Мы движемся в будущее. AI меняет индустрию — те кто адаптируется первыми, выигрывают."
-                },
-                "dialogue": [
-                    ("Client", "What format do you deliver the final video in?"),
-                    ("You", "We deliver in MP4, 4K resolution. We can also provide other formats if needed."),
-                    ("Client", "Perfect. We'll need it compatible with our platform."),
-                ]
+                "phrase": {"text": "Roads? Where we're going, we don't need roads.", "movie": "Back to the Future (1985)", "meaning": "Мы движемся в будущее. AI меняет индустрию — те кто адаптируется первыми, выигрывают."},
+                "dialogue": [("Client", "What format do you deliver the final video in?"), ("You", "We deliver in MP4, 4K resolution. We can also provide other formats if needed."), ("Client", "Perfect. We'll need it compatible with our platform.")]
             },
             {
                 "topic": "Explaining your process",
@@ -353,16 +252,8 @@ WEEKS = [
                     ("Review [ривью]", "Проверка"),
                     ("Final cut [файнэл кат]", "Финальная версия"),
                 ],
-                "phrase": {
-                    "text": "Every frame counts.",
-                    "movie": "Cinema Paradiso (1988)",
-                    "meaning": "Каждый кадр важен. В клиентском разговоре: объясни что твой процесс гарантирует качество на каждом этапе."
-                },
-                "dialogue": [
-                    ("Client", "Walk me through your production process."),
-                    ("You", "We start with a brief and script, then storyboard, production, and editing."),
-                    ("You", "You'll review at each phase before we move to the next step."),
-                ]
+                "phrase": {"text": "Every frame counts.", "movie": "Cinema Paradiso (1988)", "meaning": "Каждый кадр важен. В клиентском разговоре: объясни что твой процесс гарантирует качество на каждом этапе."},
+                "dialogue": [("Client", "Walk me through your production process."), ("You", "We start with a brief and script, then storyboard, production, and editing."), ("You", "You'll review at each phase before we move to the next step.")]
             },
             {
                 "topic": "Numbers & data",
@@ -378,16 +269,8 @@ WEEKS = [
                     ("Performance [пэрформэнс]", "Производительность"),
                     ("Data-driven [дэйта дривэн]", "На основе данных"),
                 ],
-                "phrase": {
-                    "text": "Numbers never lie.",
-                    "movie": "Moneyball (2011)",
-                    "meaning": "Данные не лгут. В продажах: подкрепляй слова цифрами — клиенты доверяют конкретике."
-                },
-                "dialogue": [
-                    ("You", "Our AI pipeline reduces production costs by up to 40%."),
-                    ("Client", "That's a significant number. How do you measure that?"),
-                    ("You", "We track hours saved and compare to traditional production timelines."),
-                ]
+                "phrase": {"text": "Numbers never lie.", "movie": "Moneyball (2011)", "meaning": "Данные не лгут. В продажах: подкрепляй слова цифрами — клиенты доверяют конкретике."},
+                "dialogue": [("You", "Our AI pipeline reduces production costs by up to 40%."), ("Client", "That's a significant number. How do you measure that?"), ("You", "We track hours saved and compare to traditional production timelines.")]
             },
             {
                 "topic": "Presentations & demos",
@@ -403,20 +286,11 @@ WEEKS = [
                     ("Benefit [бэнэфит]", "Преимущество"),
                     ("Advantage [эдвантидж]", "Преимущество"),
                 ],
-                "phrase": {
-                    "text": "I'm going to make you an offer you can't refuse... in the form of a presentation.",
-                    "movie": "Inspired by The Godfather",
-                    "meaning": "Хорошая презентация — это оффер от которого не откажутся. Готовь её под конкретного клиента."
-                },
-                "dialogue": [
-                    ("You", "I'd like to showcase some examples from our portfolio."),
-                    ("Client", "Sure, go ahead."),
-                    ("You", "This case study shows how we helped a fintech company increase engagement by 35%."),
-                ]
+                "phrase": {"text": "I'm going to make you an offer you can't refuse... in the form of a presentation.", "movie": "Inspired by The Godfather", "meaning": "Хорошая презентация — это оффер от которого не откажутся. Готовь её под конкретного клиента."},
+                "dialogue": [("You", "I'd like to showcase some examples from our portfolio."), ("Client", "Sure, go ahead."), ("You", "This case study shows how we helped a fintech company increase engagement by 35%.")]
             },
         ]
     },
-    # НЕДЕЛЯ 4 — Продвинутые переговоры
     {
         "title": "Week 4 — Advanced Business English",
         "days": [
@@ -434,16 +308,8 @@ WEEKS = [
                     ("The best approach [дэ бэст эпроуч]", "Лучший подход"),
                     ("Clearly [клирли]", "Очевидно"),
                 ],
-                "phrase": {
-                    "text": "You talking to me?",
-                    "movie": "Taxi Driver (1976)",
-                    "meaning": "Уверенность в себе. В переговорах: говори прямо, смотри в глаза, не извиняйся за своё мнение."
-                },
-                "dialogue": [
-                    ("Client", "Are you sure you can deliver by Friday?"),
-                    ("You", "Absolutely. In my experience, this type of project takes 3 days maximum."),
-                    ("Client", "That's reassuring. Let's proceed."),
-                ]
+                "phrase": {"text": "You talking to me?", "movie": "Taxi Driver (1976)", "meaning": "Уверенность в себе. В переговорах: говори прямо, смотри в глаза, не извиняйся за своё мнение."},
+                "dialogue": [("Client", "Are you sure you can deliver by Friday?"), ("You", "Absolutely. In my experience, this type of project takes 3 days maximum."), ("Client", "That's reassuring. Let's proceed.")]
             },
             {
                 "topic": "Asking the right questions",
@@ -459,16 +325,8 @@ WEEKS = [
                     ("What are your thoughts [уот ар ёр соутс]", "Каково ваше мнение"),
                     ("Is that clear [из дэт клир]", "Это ясно"),
                 ],
-                "phrase": {
-                    "text": "Elementary, my dear Watson.",
-                    "movie": "Sherlock Holmes (2009)",
-                    "meaning": "Правильный вопрос раскрывает всё. В продажах: тот кто задаёт лучшие вопросы — контролирует разговор."
-                },
-                "dialogue": [
-                    ("You", "What's your main challenge with video content right now?"),
-                    ("Client", "We produce a lot but engagement is low."),
-                    ("You", "Could you elaborate on what types of content you're producing?"),
-                ]
+                "phrase": {"text": "Elementary, my dear Watson.", "movie": "Sherlock Holmes (2009)", "meaning": "Правильный вопрос раскрывает всё. В продажах: тот кто задаёт лучшие вопросы — контролирует разговор."},
+                "dialogue": [("You", "What's your main challenge with video content right now?"), ("Client", "We produce a lot but engagement is low."), ("You", "Could you elaborate on what types of content you're producing?")]
             },
             {
                 "topic": "Saying no professionally",
@@ -484,16 +342,8 @@ WEEKS = [
                     ("Reconsider [рикэнсидэр]", "Пересмотреть"),
                     ("Adjust [эджаст]", "Скорректировать"),
                 ],
-                "phrase": {
-                    "text": "I'm gonna make him an offer he can't refuse — and if he does, that's on him.",
-                    "movie": "Inspired by The Godfather",
-                    "meaning": "Умей отказывать. В бизнесе: знать когда сказать нет — признак профессионала, а не слабость."
-                },
-                "dialogue": [
-                    ("Client", "Can you deliver 5 videos in one week?"),
-                    ("You", "Unfortunately, that's outside our current capacity."),
-                    ("You", "I'd suggest starting with 2 videos. We can scale up from there."),
-                ]
+                "phrase": {"text": "I'm gonna make him an offer he can't refuse — and if he does, that's on him.", "movie": "Inspired by The Godfather", "meaning": "Умей отказывать. В бизнесе: знать когда сказать нет — признак профессионала, а не слабость."},
+                "dialogue": [("Client", "Can you deliver 5 videos in one week?"), ("You", "Unfortunately, that's outside our current capacity."), ("You", "I'd suggest starting with 2 videos. We can scale up from there.")]
             },
             {
                 "topic": "Follow-up & relationship maintenance",
@@ -509,16 +359,8 @@ WEEKS = [
                     ("Ahead of schedule [эхэд оф скэджул]", "Впереди графика"),
                     ("Wrap up [рэп ап]", "Завершить"),
                 ],
-                "phrase": {
-                    "text": "I'll be back.",
-                    "movie": "The Terminator (1984)",
-                    "meaning": "Всегда возвращайся. В продажах: follow-up — это то что отличает закрытые сделки от потерянных."
-                },
-                "dialogue": [
-                    ("You", "Hi Mark, just checking in on the proposal I sent last week."),
-                    ("Client", "Oh yes, I've been meaning to touch base with you."),
-                    ("You", "No rush. I just wanted to make sure everything was clear."),
-                ]
+                "phrase": {"text": "I'll be back.", "movie": "The Terminator (1984)", "meaning": "Всегда возвращайся. В продажах: follow-up — это то что отличает закрытые сделки от потерянных."},
+                "dialogue": [("You", "Hi Mark, just checking in on the proposal I sent last week."), ("Client", "Oh yes, I've been meaning to touch base with you."), ("You", "No rush. I just wanted to make sure everything was clear.")]
             },
             {
                 "topic": "Zoom & video call mastery",
@@ -534,304 +376,39 @@ WEEKS = [
                     ("Take notes [тэйк ноутс]", "Делать заметки"),
                     ("Action items [экшн айтэмс]", "Задачи / Пункты действий"),
                 ],
-                "phrase": {
-                    "text": "We're not in Kansas anymore.",
-                    "movie": "The Wizard of Oz (1939)",
-                    "meaning": "Мы в новом мире. Zoom-звонки с международными клиентами — это новая реальность. Будь готов к техническим проблемам."
-                },
-                "dialogue": [
-                    ("Client", "Sorry, I think I was on mute."),
-                    ("You", "No problem. I was saying — let me share my screen to show the portfolio."),
-                    ("Client", "Great. And can you send the action items after the call?"),
-                    ("You", "Absolutely. I'll email a summary within an hour."),
-                ]
+                "phrase": {"text": "We're not in Kansas anymore.", "movie": "The Wizard of Oz (1939)", "meaning": "Мы в новом мире. Zoom-звонки с международными клиентами — это новая реальность. Будь готов к техническим проблемам."},
+                "dialogue": [("Client", "Sorry, I think I was on mute."), ("You", "No problem. I was saying — let me share my screen to show the portfolio."), ("Client", "Great. And can you send the action items after the call?"), ("You", "Absolutely. I'll email a summary within an hour.")]
             },
         ]
     },
-    # НЕДЕЛЯ 5 — Презентации и питчи
-    {
-        "title": "Week 5 — Presenting & Pitching",
-        "days": [
-            {
-                "topic": "Opening a presentation",
-                "words": [
-                    ("Good morning everyone [гуд морнинг эвриуан]", "Доброе утро всем"),
-                    ("Thank you for joining [сэнк ю фор джойнинг]", "Спасибо что присоединились"),
-                    ("Today I'd like to [тудэй айд лайк ту]", "Сегодня я хотел бы"),
-                    ("Let me start by [лет ми старт бай]", "Позвольте начать с"),
-                    ("The agenda [дэ эджэнда]", "Повестка дня"),
-                    ("Briefly [брифли]", "Кратко"),
-                    ("Overview [оувэрвью]", "Обзор"),
-                    ("Key points [ки поинтс]", "Ключевые пункты"),
-                    ("Structure [стракчэр]", "Структура"),
-                    ("Introduction [интрэдакшн]", "Введение"),
-                ],
-                "phrase": {"text": "Here's looking at you, kid.", "movie": "Casablanca (1942)", "meaning": "Держи контакт с аудиторией. На презентации: смотри на людей, не на слайды."},
-                "dialogue": [("You", "Good morning everyone. Thank you for joining today."), ("You", "I'd like to present our AI video production capabilities."), ("Client", "Great, we're excited to hear more.")]
-            },
-            {
-                "topic": "Describing your USP",
-                "words": [
-                    ("Unique [юник]", "Уникальный"),
-                    ("Distinguish [дистингуиш]", "Отличать"),
-                    ("Competitor [компэтитэр]", "Конкурент"),
-                    ("Faster [фастэр]", "Быстрее"),
-                    ("Cost-effective [кост-эфэктив]", "Экономически эффективный"),
-                    ("Scalable [скэйлэбл]", "Масштабируемый"),
-                    ("Proven [прувэн]", "Проверенный"),
-                    ("Track record [трэк рэкорд]", "Послужной список"),
-                    ("Expertise [экспёртиз]", "Экспертиза"),
-                    ("Cutting-edge [катинг-эдж]", "Передовой"),
-                ],
-                "phrase": {"text": "We're the best and we know it.", "movie": "Mad Men inspired", "meaning": "Говори о преимуществах уверенно. Скромность в питче — враг продаж."},
-                "dialogue": [("You", "What distinguishes us is our AI pipeline."), ("You", "We deliver videos 3x faster at 40% lower cost."), ("Client", "Impressive. Can you share examples?")]
-            },
-            {
-                "topic": "Handling questions",
-                "words": [
-                    ("Great question [грэйт куэсчэн]", "Отличный вопрос"),
-                    ("I'm glad you asked [айм глэд ю аскт]", "Рад что спросили"),
-                    ("To answer that [ту ансэр дэт]", "Чтобы ответить на это"),
-                    ("In other words [ин адэр вёрдз]", "Другими словами"),
-                    ("Let me clarify [лет ми клэрифай]", "Позвольте уточнить"),
-                    ("That's a fair point [дэтс э фэр поинт]", "Справедливое замечание"),
-                    ("I'll get back to you [айл гет бэк ту ю]", "Вернусь с ответом"),
-                    ("Off the top of my head [оф дэ топ оф май хэд]", "Навскидку"),
-                    ("To summarize [ту самэрайз]", "Подводя итог"),
-                    ("Any other questions [эни адэр куэсчэнс]", "Ещё вопросы"),
-                ],
-                "phrase": {"text": "I love it when a plan comes together.", "movie": "The A-Team (2010)", "meaning": "Когда Q&A проходит гладко — это результат подготовки."},
-                "dialogue": [("Client", "How do you ensure quality with AI?"), ("You", "Great question. We have human review at every stage."), ("You", "AI speeds up the process but humans control quality.")]
-            },
-            {
-                "topic": "Closing a pitch",
-                "words": [
-                    ("To wrap up [ту рэп ап]", "Подводя итог"),
-                    ("In conclusion [ин конклюжн]", "В заключение"),
-                    ("Call to action [кол ту экшн]", "Призыв к действию"),
-                    ("Next steps [некст степс]", "Следующие шаги"),
-                    ("Proposal [пропоузэл]", "Предложение"),
-                    ("Decision [дисижн]", "Решение"),
-                    ("Timeline [тайmlайн]", "Сроки"),
-                    ("Ready to proceed [рэди ту просид]", "Готов к работе"),
-                    ("Questions [куэсчэнс]", "Вопросы"),
-                    ("Thank you [сэнк ю]", "Спасибо"),
-                ],
-                "phrase": {"text": "Make it so.", "movie": "Star Trek: TNG", "meaning": "Короткий уверенный призыв к действию. Лучшие питчи заканчиваются чётким следующим шагом."},
-                "dialogue": [("You", "To wrap up — we can deliver your first video in 7 days."), ("You", "Are you ready to proceed?"), ("Client", "Yes. Send us the proposal.")]
-            },
-            {
-                "topic": "Storytelling in business",
-                "words": [
-                    ("Story [стори]", "История"),
-                    ("Challenge [челиндж]", "Вызов / Проблема"),
-                    ("Solution [солюшн]", "Решение"),
-                    ("Outcome [аутком]", "Результат"),
-                    ("Impact [импакт]", "Влияние"),
-                    ("Transformation [трансформэйшн]", "Трансформация"),
-                    ("Before and after [бифор энд афтэр]", "До и после"),
-                    ("Journey [джёрни]", "Путь"),
-                    ("Success [саксэс]", "Успех"),
-                    ("Inspire [инспайэр]", "Вдохновлять"),
-                ],
-                "phrase": {"text": "Stories are data with a soul.", "movie": "Brené Brown TED Talk", "meaning": "Данные убеждают разум. История убеждает сердце. Используй оба в питче."},
-                "dialogue": [("You", "Let me share a quick story about one of our clients."), ("You", "They needed content fast. After our AI pipeline — 5x more content at half the cost."), ("Client", "That's exactly our situation.")]
-            },
-        ]
-    },
-    # НЕДЕЛЯ 6 — Сложные ситуации
-    {
-        "title": "Week 6 — Difficult Situations",
-        "days": [
-            {
-                "topic": "When client is unhappy",
-                "words": [
-                    ("Apologize [эполэджайз]", "Извиниться"),
-                    ("Responsibility [риспонсэбилити]", "Ответственность"),
-                    ("Fix [фикс]", "Исправить"),
-                    ("Resolve [ризолв]", "Решить"),
-                    ("Compensate [компэнсэйт]", "Компенсировать"),
-                    ("Miscommunication [мискомьюникэйшн]", "Недопонимание"),
-                    ("Expectation [экспэктэйшн]", "Ожидание"),
-                    ("Disappoint [дисэпойнт]", "Разочаровать"),
-                    ("Assure [эшуэр]", "Заверить"),
-                    ("Priority [прайорити]", "Приоритет"),
-                ],
-                "phrase": {"text": "Stay calm and carry on.", "movie": "WWII British poster", "meaning": "Не паникуй когда клиент недоволен — спокойствие решает проблемы."},
-                "dialogue": [("Client", "This is not what we discussed. I'm disappointed."), ("You", "I completely understand and apologize for the miscommunication."), ("You", "Let me make this right. Revised version by tomorrow.")]
-            },
-            {
-                "topic": "Managing scope creep",
-                "words": [
-                    ("Scope [скоуп]", "Объём работ"),
-                    ("Additional [эдишэнэл]", "Дополнительный"),
-                    ("Out of scope [аут оф скоуп]", "Вне объёма"),
-                    ("Extra charge [экстра чардж]", "Дополнительная плата"),
-                    ("Amendment [эмэндмэнт]", "Поправка"),
-                    ("Original agreement [оридженэл эгримэнт]", "Первоначальное соглашение"),
-                    ("Change request [чэйндж рикуэст]", "Запрос на изменение"),
-                    ("Quote [куоут]", "Смета"),
-                    ("Adjust [эджаст]", "Скорректировать"),
-                    ("Boundaries [баундэриз]", "Границы"),
-                ],
-                "phrase": {"text": "Good fences make good neighbours.", "movie": "Robert Frost", "meaning": "Чёткие границы объёма работ — основа хороших клиентских отношений."},
-                "dialogue": [("Client", "Can you also add subtitles and a shorter version?"), ("You", "Those are outside our original scope."), ("You", "I'd be happy to quote the extra work separately.")]
-            },
-            {
-                "topic": "Delayed payments",
-                "words": [
-                    ("Overdue [оувэрдью]", "Просроченный"),
-                    ("Reminder [риmaйндэр]", "Напоминание"),
-                    ("Outstanding [аутстэндинг]", "Неоплаченный"),
-                    ("Invoice [инвойс]", "Счёт"),
-                    ("Due date [дью дэйт]", "Срок оплаты"),
-                    ("Follow up [фолоу ап]", "Связаться снова"),
-                    ("Payment terms [пэймэнт тёрмз]", "Условия оплаты"),
-                    ("Late fee [лэйт фи]", "Штраф за просрочку"),
-                    ("Settle [сэтл]", "Урегулировать"),
-                    ("Appreciate [эпришиэйт]", "Ценить"),
-                ],
-                "phrase": {"text": "Show me the money!", "movie": "Jerry Maguire (1996)", "meaning": "Следи за оплатами — даже лучшие клиенты забывают платить вовремя."},
-                "dialogue": [("You", "Hi, I wanted to follow up on invoice 102. It's currently outstanding."), ("Client", "Sorry about that! I'll process it today."), ("You", "Thank you, I appreciate it.")]
-            },
-            {
-                "topic": "Setting professional boundaries",
-                "words": [
-                    ("Boundary [баундэри]", "Граница"),
-                    ("Availability [эвэйлэбилити]", "Доступность"),
-                    ("Business hours [бизнэс ауэрз]", "Рабочие часы"),
-                    ("Response time [риспонс тайм]", "Время ответа"),
-                    ("Urgent [ёрджэнт]", "Срочный"),
-                    ("Reasonable [ризэнэбл]", "Разумный"),
-                    ("Respect [риспэкт]", "Уважать"),
-                    ("Policy [полиси]", "Политика"),
-                    ("Workload [вёрклоуд]", "Рабочая нагрузка"),
-                    ("Balance [бэлэнс]", "Баланс"),
-                ],
-                "phrase": {"text": "Respect yourself enough to say no.", "movie": "Wisdom", "meaning": "Профессионал умеет говорить нет — это признак уверенности, не слабости."},
-                "dialogue": [("Client", "Can you call me at 10pm tonight?"), ("You", "I'm not available after 7pm."), ("You", "I'd be happy to schedule a call tomorrow morning instead.")]
-            },
-            {
-                "topic": "Offering alternatives",
-                "words": [
-                    ("Decline [диклайн]", "Отказать"),
-                    ("Alternative [олтёрнэтив]", "Альтернатива"),
-                    ("Instead [инстэд]", "Вместо этого"),
-                    ("Suggest [сэджэст]", "Предложить"),
-                    ("Compromise [компромайз]", "Компромисс"),
-                    ("Feasible [физэбл]", "Осуществимый"),
-                    ("Realistic [риэлистик]", "Реалистичный"),
-                    ("Limitations [лимитэйшэнс]", "Ограничения"),
-                    ("Best option [бэст опшн]", "Лучший вариант"),
-                    ("Work around [вёрк эраунд]", "Обходное решение"),
-                ],
-                "phrase": {"text": "When one door closes, another opens.", "movie": "Alexander Graham Bell", "meaning": "Отказывая в одном — предлагай альтернативу. Клиент запомнит решение, а не отказ."},
-                "dialogue": [("Client", "We need this in 24 hours."), ("You", "That's not feasible right now."), ("You", "However, I can deliver a quality draft in 48 hours. Would that work?")]
-            },
-        ]
-    },
-    # НЕДЕЛЯ 7 — Управление проектами
-    {
-        "title": "Week 7 — Project Management",
-        "days": [
-            {
-                "topic": "Kickoff meeting",
-                "words": [
-                    ("Kickoff [кикоф]", "Начало проекта"),
-                    ("Stakeholder [стэйкхолдэр]", "Заинтересованная сторона"),
-                    ("Objective [обджэктив]", "Цель"),
-                    ("Deliverable [дэливэрэбл]", "Результат работы"),
-                    ("Responsibility [риспонсэбилити]", "Ответственность"),
-                    ("Point of contact [поинт оф контэкт]", "Контактное лицо"),
-                    ("Sign off [сайн оф]", "Утвердить"),
-                    ("Workflow [вёркфлоу]", "Рабочий процесс"),
-                    ("Milestone [майлстоун]", "Этап"),
-                    ("Expectations [экспэктэйшнс]", "Ожидания"),
-                ],
-                "phrase": {"text": "Houston, we have a problem.", "movie": "Apollo 13 (1995)", "meaning": "Лучше выявить проблему на кикоффе чем в конце проекта."},
-                "dialogue": [("You", "Welcome to the kickoff. Let's align on objectives."), ("You", "Who is the main point of contact on your side?"), ("Client", "That would be me. I'll sign off on all deliverables.")]
-            },
-            {
-                "topic": "Project updates",
-                "words": [
-                    ("On schedule [он скэджул]", "По графику"),
-                    ("Behind schedule [бихайнд скэджул]", "Позади графика"),
-                    ("Ahead of schedule [эхэд оф скэджул]", "Впереди графика"),
-                    ("Update [апдэйт]", "Обновление"),
-                    ("Status report [стэйтэс рипорт]", "Отчёт о статусе"),
-                    ("Blocker [блокэр]", "Блокирующая проблема"),
-                    ("Dependency [дипэндэнси]", "Зависимость"),
-                    ("Risk [риск]", "Риск"),
-                    ("Mitigation [митигэйшн]", "Снижение риска"),
-                    ("ETA [и-ти-эй]", "Ожидаемая дата сдачи"),
-                ],
-                "phrase": {"text": "Keep moving forward.", "movie": "Meet the Robinsons (2007)", "meaning": "Даже если тормозит — информируй клиента и двигайся вперёд."},
-                "dialogue": [("You", "Quick update — we're on schedule."), ("You", "First draft ready by Thursday as planned."), ("Client", "Perfect. Let us know if there are blockers.")]
-            },
-            {
-                "topic": "Feedback and revisions",
-                "words": [
-                    ("Feedback [фидбэк]", "Обратная связь"),
-                    ("Revision [ривижн]", "Правка"),
-                    ("Round [раунд]", "Раунд"),
-                    ("Incorporate [инкорпорэйт]", "Включить"),
-                    ("Amendment [эмэндмэнт]", "Поправка"),
-                    ("Version [вёржн]", "Версия"),
-                    ("Final [файнэл]", "Финальный"),
-                    ("Approval [эпрувэл]", "Утверждение"),
-                    ("Note [ноут]", "Заметка"),
-                    ("Turnaround [тёрнэраунд]", "Срок выполнения"),
-                ],
-                "phrase": {"text": "The first draft is just the beginning.", "movie": "Writing wisdom", "meaning": "Первый вариант никогда не финальный. Управляй ожиданиями с самого начала."},
-                "dialogue": [("Client", "Here's our feedback on version 1."), ("You", "Thank you. I'll incorporate all notes in the next revision."), ("You", "Turnaround is 48 hours. Does that work?")]
-            },
-            {
-                "topic": "Deadline management",
-                "words": [
-                    ("Deadline [дедлайн]", "Крайний срок"),
-                    ("Extension [икстэншн]", "Продление"),
-                    ("Rush [раш]", "Срочно"),
-                    ("Buffer [бафэр]", "Запас времени"),
-                    ("Realistic [риэлистик]", "Реалистичный"),
-                    ("Commit [комит]", "Взять обязательство"),
-                    ("Deliver [дэливэр]", "Сдать"),
-                    ("Overrun [оувэррун]", "Превысить сроки"),
-                    ("Flexible [флэксэбл]", "Гибкий"),
-                    ("Hard deadline [хард дедлайн]", "Жёсткий дедлайн"),
-                ],
-                "phrase": {"text": "Time is money.", "movie": "Benjamin Franklin", "meaning": "В продакшне время буквально равно деньгам. Управляй дедлайнами как профессионал."},
-                "dialogue": [("Client", "Is Friday a hard deadline?"), ("You", "Yes, I can commit to Friday delivery."), ("You", "I always build in a buffer so there are no surprises.")]
-            },
-            {
-                "topic": "Project closure",
-                "words": [
-                    ("Wrap up [рэп ап]", "Завершить"),
-                    ("Final delivery [файнэл дэливэри]", "Финальная сдача"),
-                    ("Assets [эссэтс]", "Материалы"),
-                    ("Hand over [хэнд оувэр]", "Передать"),
-                    ("Archive [архив]", "Архив"),
-                    ("Lessons learned [лэсэнс лёрнд]", "Усвоенные уроки"),
-                    ("Testimonial [тэстимониэл]", "Отзыв"),
-                    ("Referral [рифёрэл]", "Рекомендация"),
-                    ("Retainer [ритэйнэр]", "Абонемент"),
-                    ("Ongoing [онгоинг]", "Продолжающийся"),
-                ],
-                "phrase": {"text": "That's a wrap!", "movie": "Film set expression", "meaning": "Классическая фраза со съёмочной площадки. Используй при финальной сдаче."},
-                "dialogue": [("You", "That's a wrap! Here are all final assets."), ("Client", "We're very happy with the result."), ("You", "Thank you! Would you be open to leaving a testimonial?")]
-            },
-        ]
-    },
-    # НЕДЕЛИ 8-16 — продолжение
-    {
-        "title": "Week 8 — Marketing & Content Strategy",
-        "days": [
-            {"topic": "Content marketing basics", "words": [("Content marketing [контент маркетинг]", "Контент-маркетинг"), ("Brand awareness [брэнд эвэрнэс]", "Осведомлённость о бренде"), ("Lead generation [лид джэнэрэйшн]", "Лидогенерация"), ("Funnel [фанэл]", "Воронка"), ("Touchpoint [тачпоинт]", "Точка контакта"), ("Audience [одиэнс]", "Аудитория"), ("Persona [пёрсона]", "Персона покупателя"), ("Journey [джёрни]", "Путь клиента"), ("Conversion [конвёршн]", "Конверсия"), ("Retention [ритэншн]", "Удержание")], "phrase": {"text": "Content is king.", "movie": "Bill Gates, 1996", "meaning": "Контент правит. AI-контент правит ещё быстрее и дешевле."}, "dialogue": [("Client", "We need more content but have a limited budget."), ("You", "AI production lets us scale content without scaling costs."), ("You", "We can produce 10x more within your budget.")]},
-            {"topic": "Video marketing terms", "words": [("Explainer video [эксплэйнэр видео]", "Объясняющее видео"), ("Testimonial video [тэстимониэл видео]", "Видео-отзыв"), ("Product demo [продакт демо]", "Демонстрация продукта"), ("Brand video [брэнд видео]", "Брендовое видео"), ("Case study video [кэйс стади видео]", "Видео-кейс"), ("Tutorial [тьюториэл]", "Обучающее видео"), ("Webinar [вэбинар]", "Вебинар"), ("Live stream [лайв стрим]", "Прямая трансляция"), ("Short form [шорт форм]", "Короткий формат"), ("Long form [лонг форм]", "Длинный формат")], "phrase": {"text": "A picture is worth a thousand words.", "movie": "Ancient proverb", "meaning": "Видео стоит миллион слов. Именно поэтому твой бизнес самый ценный для клиентов."}, "dialogue": [("Client", "What type of video works best for us?"), ("You", "For B2B SaaS, I'd recommend an explainer video first."), ("You", "Then testimonial videos as you get clients.")]},
-            {"topic": "Social media distribution", "words": [("Platform [плэтформ]", "Платформа"), ("Organic [органик]", "Органический"), ("Paid [пэйд]", "Платный"), ("Algorithm [элгэритм]", "Алгоритм"), ("Reach [рич]", "Охват"), ("Impressions [импрэшэнс]", "Показы"), ("Click-through rate [клик-фру рэйт]", "Кликабельность"), ("Subscribe [сэбскрайб]", "Подписаться"), ("Share [шэр]", "Поделиться"), ("Viral [вайрэл]", "Вирусный")], "phrase": {"text": "Build it and they will come.", "movie": "Field of Dreams (1989)", "meaning": "Хороший контент находит аудиторию. Дистрибуция помогает найти её быстрее."}, "dialogue": [("Client", "Where should we distribute the video?"), ("You", "LinkedIn for B2B reach, YouTube for organic growth."), ("You", "We can cut shorter versions for Instagram too.")]},
-            {"topic": "Analytics and reporting", "words": [("Analytics [энэлитикс]", "Аналитика"), ("Report [рипорт]", "Отчёт"), ("KPI [кэй-пи-ай]", "Ключевой показатель"), ("Benchmark [бэнчмарк]", "Эталон"), ("Dashboard [дэшборд]", "Дашборд"), ("Data [дэйта]", "Данные"), ("Insight [инсайт]", "Инсайт"), ("Trend [трэнд]", "Тренд"), ("Measure [мэжэр]", "Измерять"), ("Optimize [оптимайз]", "Оптимизировать")], "phrase": {"text": "What gets measured gets managed.", "movie": "Peter Drucker", "meaning": "Без аналитики нет роста. Предлагай клиентам отчёты — это повышает ценность работы."}, "dialogue": [("Client", "How will we know if the video is working?"), ("You", "We'll track views, engagement, and conversion."), ("You", "I'll send a monthly analytics report.")]},
-            {"topic": "Content strategy", "words": [("Strategy [стрэтэджи]", "Стратегия"), ("Roadmap [роудмэп]", "Дорожная карта"), ("Quarter [куортэр]", "Квартал"), ("Annual [эниюэл]", "Ежегодный"), ("Initiative [инишэтив]", "Инициатива"), ("Prioritize [прайоритайз]", "Расставить приоритеты"), ("Resource [ризорс]", "Ресурс"), ("Allocate [элокэйт]", "Распределить"), ("Strategic [стрэтиджик]", "Стратегический"), ("Vision [вижн]", "Видение")], "phrase": {"text": "Plans are nothing; planning is everything.", "movie": "Eisenhower", "meaning": "Процесс планирования важнее самого плана. Предлагай клиентам стратегические сессии."}, "dialogue": [("You", "Have you thought about a content strategy for Q3?"), ("Client", "Not really. We've been reactive."), ("You", "I'd love to help you build a quarterly video roadmap.")]},
-        ]
-    },
+    {"title": "Week 5 — Presenting & Pitching", "days": [
+        {"topic": "Opening a presentation", "words": [("Good morning everyone [гуд морнинг эвриуан]", "Доброе утро всем"), ("Thank you for joining [сэнк ю фор джойнинг]", "Спасибо что присоединились"), ("Today I'd like to [тудэй айд лайк ту]", "Сегодня я хотел бы"), ("Let me start by [лет ми старт бай]", "Позвольте начать с"), ("The agenda [дэ эджэнда]", "Повестка дня"), ("Briefly [брифли]", "Кратко"), ("Overview [оувэрвью]", "Обзор"), ("Key points [ки поинтс]", "Ключевые пункты"), ("Structure [стракчэр]", "Структура"), ("Introduction [интрэдакшн]", "Введение")], "phrase": {"text": "Here's looking at you, kid.", "movie": "Casablanca (1942)", "meaning": "Держи контакт с аудиторией. На презентации: смотри на людей, не на слайды."}, "dialogue": [("You", "Good morning everyone. Thank you for joining today."), ("You", "I'd like to present our AI video production capabilities."), ("Client", "Great, we're excited to hear more.")]},
+        {"topic": "Describing your USP", "words": [("Unique [юник]", "Уникальный"), ("Distinguish [дистингуиш]", "Отличать"), ("Competitor [компэтитэр]", "Конкурент"), ("Faster [фастэр]", "Быстрее"), ("Cost-effective [кост-эфэктив]", "Экономически эффективный"), ("Scalable [скэйлэбл]", "Масштабируемый"), ("Proven [прувэн]", "Проверенный"), ("Track record [трэк рэкорд]", "Послужной список"), ("Expertise [экспёртиз]", "Экспертиза"), ("Cutting-edge [катинг-эдж]", "Передовой")], "phrase": {"text": "We're the best and we know it.", "movie": "Mad Men inspired", "meaning": "Говори о преимуществах уверенно. Скромность в питче — враг продаж."}, "dialogue": [("You", "What distinguishes us is our AI pipeline."), ("You", "We deliver videos 3x faster at 40% lower cost."), ("Client", "Impressive. Can you share examples?")]},
+        {"topic": "Handling questions", "words": [("Great question [грэйт куэсчэн]", "Отличный вопрос"), ("I'm glad you asked [айм глэд ю аскт]", "Рад что спросили"), ("To answer that [ту ансэр дэт]", "Чтобы ответить на это"), ("In other words [ин адэр вёрдз]", "Другими словами"), ("Let me clarify [лет ми клэрифай]", "Позвольте уточнить"), ("That's a fair point [дэтс э фэр поинт]", "Справедливое замечание"), ("I'll get back to you [айл гет бэк ту ю]", "Вернусь с ответом"), ("Off the top of my head [оф дэ топ оф май хэд]", "Навскидку"), ("To summarize [ту самэрайз]", "Подводя итог"), ("Any other questions [эни адэр куэсчэнс]", "Ещё вопросы")], "phrase": {"text": "I love it when a plan comes together.", "movie": "The A-Team (2010)", "meaning": "Когда Q&A проходит гладко — это результат подготовки."}, "dialogue": [("Client", "How do you ensure quality with AI?"), ("You", "Great question. We have human review at every stage."), ("You", "AI speeds up the process but humans control quality.")]},
+        {"topic": "Closing a pitch", "words": [("To wrap up [ту рэп ап]", "Подводя итог"), ("In conclusion [ин конклюжн]", "В заключение"), ("Call to action [кол ту экшн]", "Призыв к действию"), ("Next steps [некст степс]", "Следующие шаги"), ("Proposal [пропоузэл]", "Предложение"), ("Decision [дисижн]", "Решение"), ("Timeline [тайmlайн]", "Сроки"), ("Ready to proceed [рэди ту просид]", "Готов к работе"), ("Questions [куэсчэнс]", "Вопросы"), ("Thank you [сэнк ю]", "Спасибо")], "phrase": {"text": "Make it so.", "movie": "Star Trek: TNG", "meaning": "Короткий уверенный призыв к действию. Лучшие питчи заканчиваются чётким следующим шагом."}, "dialogue": [("You", "To wrap up — we can deliver your first video in 7 days."), ("You", "Are you ready to proceed?"), ("Client", "Yes. Send us the proposal.")]},
+        {"topic": "Storytelling in business", "words": [("Story [стори]", "История"), ("Challenge [челиндж]", "Вызов / Проблема"), ("Solution [солюшн]", "Решение"), ("Outcome [аутком]", "Результат"), ("Impact [импакт]", "Влияние"), ("Transformation [трансформэйшн]", "Трансформация"), ("Before and after [бифор энд афтэр]", "До и после"), ("Journey [джёрни]", "Путь"), ("Success [саксэс]", "Успех"), ("Inspire [инспайэр]", "Вдохновлять")], "phrase": {"text": "Stories are data with a soul.", "movie": "Brené Brown TED Talk", "meaning": "Данные убеждают разум. История убеждает сердце. Используй оба в питче."}, "dialogue": [("You", "Let me share a quick story about one of our clients."), ("You", "They needed content fast. After our AI pipeline — 5x more content at half the cost."), ("Client", "That's exactly our situation.")]},
+    ]},
+    {"title": "Week 6 — Difficult Situations", "days": [
+        {"topic": "When client is unhappy", "words": [("Apologize [эполэджайз]", "Извиниться"), ("Responsibility [риспонсэбилити]", "Ответственность"), ("Fix [фикс]", "Исправить"), ("Resolve [ризолв]", "Решить"), ("Compensate [компэнсэйт]", "Компенсировать"), ("Miscommunication [мискомьюникэйшн]", "Недопонимание"), ("Expectation [экспэктэйшн]", "Ожидание"), ("Disappoint [дисэпойнт]", "Разочаровать"), ("Assure [эшуэр]", "Заверить"), ("Priority [прайорити]", "Приоритет")], "phrase": {"text": "Stay calm and carry on.", "movie": "WWII British poster", "meaning": "Не паникуй когда клиент недоволен — спокойствие решает проблемы."}, "dialogue": [("Client", "This is not what we discussed. I'm disappointed."), ("You", "I completely understand and apologize for the miscommunication."), ("You", "Let me make this right. Revised version by tomorrow.")]},
+        {"topic": "Managing scope creep", "words": [("Scope [скоуп]", "Объём работ"), ("Additional [эдишэнэл]", "Дополнительный"), ("Out of scope [аут оф скоуп]", "Вне объёма"), ("Extra charge [экстра чардж]", "Дополнительная плата"), ("Amendment [эмэндмэнт]", "Поправка"), ("Original agreement [оридженэл эгримэнт]", "Первоначальное соглашение"), ("Change request [чэйндж рикуэст]", "Запрос на изменение"), ("Quote [куоут]", "Смета"), ("Adjust [эджаст]", "Скорректировать"), ("Boundaries [баундэриз]", "Границы")], "phrase": {"text": "Good fences make good neighbours.", "movie": "Robert Frost", "meaning": "Чёткие границы объёма работ — основа хороших клиентских отношений."}, "dialogue": [("Client", "Can you also add subtitles and a shorter version?"), ("You", "Those are outside our original scope."), ("You", "I'd be happy to quote the extra work separately.")]},
+        {"topic": "Delayed payments", "words": [("Overdue [оувэрдью]", "Просроченный"), ("Reminder [риmaйндэр]", "Напоминание"), ("Outstanding [аутстэндинг]", "Неоплаченный"), ("Invoice [инвойс]", "Счёт"), ("Due date [дью дэйт]", "Срок оплаты"), ("Follow up [фолоу ап]", "Связаться снова"), ("Payment terms [пэймэнт тёрмз]", "Условия оплаты"), ("Late fee [лэйт фи]", "Штраф за просрочку"), ("Settle [сэтл]", "Урегулировать"), ("Appreciate [эпришиэйт]", "Ценить")], "phrase": {"text": "Show me the money!", "movie": "Jerry Maguire (1996)", "meaning": "Следи за оплатами — даже лучшие клиенты забывают платить вовремя."}, "dialogue": [("You", "Hi, I wanted to follow up on invoice 102. It's currently outstanding."), ("Client", "Sorry about that! I'll process it today."), ("You", "Thank you, I appreciate it.")]},
+        {"topic": "Setting professional boundaries", "words": [("Boundary [баундэри]", "Граница"), ("Availability [эвэйлэбилити]", "Доступность"), ("Business hours [бизнэс ауэрз]", "Рабочие часы"), ("Response time [риспонс тайм]", "Время ответа"), ("Urgent [ёрджэнт]", "Срочный"), ("Reasonable [ризэнэбл]", "Разумный"), ("Respect [риспэкт]", "Уважать"), ("Policy [полиси]", "Политика"), ("Workload [вёрклоуд]", "Рабочая нагрузка"), ("Balance [бэлэнс]", "Баланс")], "phrase": {"text": "Respect yourself enough to say no.", "movie": "Wisdom", "meaning": "Профессионал умеет говорить нет — это признак уверенности, не слабости."}, "dialogue": [("Client", "Can you call me at 10pm tonight?"), ("You", "I'm not available after 7pm."), ("You", "I'd be happy to schedule a call tomorrow morning instead.")]},
+        {"topic": "Offering alternatives", "words": [("Decline [диклайн]", "Отказать"), ("Alternative [олтёрнэтив]", "Альтернатива"), ("Instead [инстэд]", "Вместо этого"), ("Suggest [сэджэст]", "Предложить"), ("Compromise [компромайз]", "Компромисс"), ("Feasible [физэбл]", "Осуществимый"), ("Realistic [риэлистик]", "Реалистичный"), ("Limitations [лимитэйшэнс]", "Ограничения"), ("Best option [бэст опшн]", "Лучший вариант"), ("Work around [вёрк эраунд]", "Обходное решение")], "phrase": {"text": "When one door closes, another opens.", "movie": "Alexander Graham Bell", "meaning": "Отказывая в одном — предлагай альтернативу. Клиент запомнит решение, а не отказ."}, "dialogue": [("Client", "We need this in 24 hours."), ("You", "That's not feasible right now."), ("You", "However, I can deliver a quality draft in 48 hours. Would that work?")]},
+    ]},
+    {"title": "Week 7 — Project Management", "days": [
+        {"topic": "Kickoff meeting", "words": [("Kickoff [кикоф]", "Начало проекта"), ("Stakeholder [стэйкхолдэр]", "Заинтересованная сторона"), ("Objective [обджэктив]", "Цель"), ("Deliverable [дэливэрэбл]", "Результат работы"), ("Responsibility [риспонсэбилити]", "Ответственность"), ("Point of contact [поинт оф контэкт]", "Контактное лицо"), ("Sign off [сайн оф]", "Утвердить"), ("Workflow [вёркфлоу]", "Рабочий процесс"), ("Milestone [майлстоун]", "Этап"), ("Expectations [экспэктэйшнс]", "Ожидания")], "phrase": {"text": "Houston, we have a problem.", "movie": "Apollo 13 (1995)", "meaning": "Лучше выявить проблему на кикоффе чем в конце проекта."}, "dialogue": [("You", "Welcome to the kickoff. Let's align on objectives."), ("You", "Who is the main point of contact on your side?"), ("Client", "That would be me. I'll sign off on all deliverables.")]},
+        {"topic": "Project updates", "words": [("On schedule [он скэджул]", "По графику"), ("Behind schedule [бихайнд скэджул]", "Позади графика"), ("Ahead of schedule [эхэд оф скэджул]", "Впереди графика"), ("Update [апдэйт]", "Обновление"), ("Status report [стэйтэс рипорт]", "Отчёт о статусе"), ("Blocker [блокэр]", "Блокирующая проблема"), ("Dependency [дипэндэнси]", "Зависимость"), ("Risk [риск]", "Риск"), ("Mitigation [митигэйшн]", "Снижение риска"), ("ETA [и-ти-эй]", "Ожидаемая дата сдачи")], "phrase": {"text": "Keep moving forward.", "movie": "Meet the Robinsons (2007)", "meaning": "Даже если тормозит — информируй клиента и двигайся вперёд."}, "dialogue": [("You", "Quick update — we're on schedule."), ("You", "First draft ready by Thursday as planned."), ("Client", "Perfect. Let us know if there are blockers.")]},
+        {"topic": "Feedback and revisions", "words": [("Feedback [фидбэк]", "Обратная связь"), ("Revision [ривижн]", "Правка"), ("Round [раунд]", "Раунд"), ("Incorporate [инкорпорэйт]", "Включить"), ("Amendment [эмэндмэнт]", "Поправка"), ("Version [вёржн]", "Версия"), ("Final [файнэл]", "Финальный"), ("Approval [эпрувэл]", "Утверждение"), ("Note [ноут]", "Заметка"), ("Turnaround [тёрнэраунд]", "Срок выполнения")], "phrase": {"text": "The first draft is just the beginning.", "movie": "Writing wisdom", "meaning": "Первый вариант никогда не финальный. Управляй ожиданиями с самого начала."}, "dialogue": [("Client", "Here's our feedback on version 1."), ("You", "Thank you. I'll incorporate all notes in the next revision."), ("You", "Turnaround is 48 hours. Does that work?")]},
+        {"topic": "Deadline management", "words": [("Deadline [дедлайн]", "Крайний срок"), ("Extension [икстэншн]", "Продление"), ("Rush [раш]", "Срочно"), ("Buffer [бафэр]", "Запас времени"), ("Realistic [риэлистик]", "Реалистичный"), ("Commit [комит]", "Взять обязательство"), ("Deliver [дэливэр]", "Сдать"), ("Overrun [оувэррун]", "Превысить сроки"), ("Flexible [флэксэбл]", "Гибкий"), ("Hard deadline [хард дедлайн]", "Жёсткий дедлайн")], "phrase": {"text": "Time is money.", "movie": "Benjamin Franklin", "meaning": "В продакшне время буквально равно деньгам. Управляй дедлайнами как профессионал."}, "dialogue": [("Client", "Is Friday a hard deadline?"), ("You", "Yes, I can commit to Friday delivery."), ("You", "I always build in a buffer so there are no surprises.")]},
+        {"topic": "Project closure", "words": [("Wrap up [рэп ап]", "Завершить"), ("Final delivery [файнэл дэливэри]", "Финальная сдача"), ("Assets [эссэтс]", "Материалы"), ("Hand over [хэнд оувэр]", "Передать"), ("Archive [архив]", "Архив"), ("Lessons learned [лэсэнс лёрнд]", "Усвоенные уроки"), ("Testimonial [тэстимониэл]", "Отзыв"), ("Referral [рифёрэл]", "Рекомендация"), ("Retainer [ритэйнэр]", "Абонемент"), ("Ongoing [онгоинг]", "Продолжающийся")], "phrase": {"text": "That's a wrap!", "movie": "Film set expression", "meaning": "Классическая фраза со съёмочной площадки. Используй при финальной сдаче."}, "dialogue": [("You", "That's a wrap! Here are all final assets."), ("Client", "We're very happy with the result."), ("You", "Thank you! Would you be open to leaving a testimonial?")]},
+    ]},
+    {"title": "Week 8 — Marketing & Content Strategy", "days": [
+        {"topic": "Content marketing basics", "words": [("Content marketing [контент маркетинг]", "Контент-маркетинг"), ("Brand awareness [брэнд эвэрнэс]", "Осведомлённость о бренде"), ("Lead generation [лид джэнэрэйшн]", "Лидогенерация"), ("Funnel [фанэл]", "Воронка"), ("Touchpoint [тачпоинт]", "Точка контакта"), ("Audience [одиэнс]", "Аудитория"), ("Persona [пёрсона]", "Персона покупателя"), ("Journey [джёрни]", "Путь клиента"), ("Conversion [конвёршн]", "Конверсия"), ("Retention [ритэншн]", "Удержание")], "phrase": {"text": "Content is king.", "movie": "Bill Gates, 1996", "meaning": "Контент правит. AI-контент правит ещё быстрее и дешевле."}, "dialogue": [("Client", "We need more content but have a limited budget."), ("You", "AI production lets us scale content without scaling costs."), ("You", "We can produce 10x more within your budget.")]},
+        {"topic": "Video marketing terms", "words": [("Explainer video [эксплэйнэр видео]", "Объясняющее видео"), ("Testimonial video [тэстимониэл видео]", "Видео-отзыв"), ("Product demo [продакт демо]", "Демонстрация продукта"), ("Brand video [брэнд видео]", "Брендовое видео"), ("Case study video [кэйс стади видео]", "Видео-кейс"), ("Tutorial [тьюториэл]", "Обучающее видео"), ("Webinar [вэбинар]", "Вебинар"), ("Live stream [лайв стрим]", "Прямая трансляция"), ("Short form [шорт форм]", "Короткий формат"), ("Long form [лонг форм]", "Длинный формат")], "phrase": {"text": "A picture is worth a thousand words.", "movie": "Ancient proverb", "meaning": "Видео стоит миллион слов. Именно поэтому твой бизнес самый ценный для клиентов."}, "dialogue": [("Client", "What type of video works best for us?"), ("You", "For B2B SaaS, I'd recommend an explainer video first."), ("You", "Then testimonial videos as you get clients.")]},
+        {"topic": "Social media distribution", "words": [("Platform [плэтформ]", "Платформа"), ("Organic [органик]", "Органический"), ("Paid [пэйд]", "Платный"), ("Algorithm [элгэритм]", "Алгоритм"), ("Reach [рич]", "Охват"), ("Impressions [импрэшэнс]", "Показы"), ("Click-through rate [клик-фру рэйт]", "Кликабельность"), ("Subscribe [сэбскрайб]", "Подписаться"), ("Share [шэр]", "Поделиться"), ("Viral [вайрэл]", "Вирусный")], "phrase": {"text": "Build it and they will come.", "movie": "Field of Dreams (1989)", "meaning": "Хороший контент находит аудиторию. Дистрибуция помогает найти её быстрее."}, "dialogue": [("Client", "Where should we distribute the video?"), ("You", "LinkedIn for B2B reach, YouTube for organic growth."), ("You", "We can cut shorter versions for Instagram too.")]},
+        {"topic": "Analytics and reporting", "words": [("Analytics [энэлитикс]", "Аналитика"), ("Report [рипорт]", "Отчёт"), ("KPI [кэй-пи-ай]", "Ключевой показатель"), ("Benchmark [бэнчмарк]", "Эталон"), ("Dashboard [дэшборд]", "Дашборд"), ("Data [дэйта]", "Данные"), ("Insight [инсайт]", "Инсайт"), ("Trend [трэнд]", "Тренд"), ("Measure [мэжэр]", "Измерять"), ("Optimize [оптимайз]", "Оптимизировать")], "phrase": {"text": "What gets measured gets managed.", "movie": "Peter Drucker", "meaning": "Без аналитики нет роста. Предлагай клиентам отчёты — это повышает ценность работы."}, "dialogue": [("Client", "How will we know if the video is working?"), ("You", "We'll track views, engagement, and conversion."), ("You", "I'll send a monthly analytics report.")]},
+        {"topic": "Content strategy", "words": [("Strategy [стрэтэджи]", "Стратегия"), ("Roadmap [роудмэп]", "Дорожная карта"), ("Quarter [куортэр]", "Квартал"), ("Annual [эниюэл]", "Ежегодный"), ("Initiative [инишэтив]", "Инициатива"), ("Prioritize [прайоритайз]", "Расставить приоритеты"), ("Resource [ризорс]", "Ресурс"), ("Allocate [элокэйт]", "Распределить"), ("Strategic [стрэтиджик]", "Стратегический"), ("Vision [вижн]", "Видение")], "phrase": {"text": "Plans are nothing; planning is everything.", "movie": "Eisenhower", "meaning": "Процесс планирования важнее самого плана. Предлагай клиентам стратегические сессии."}, "dialogue": [("You", "Have you thought about a content strategy for Q3?"), ("Client", "Not really. We've been reactive."), ("You", "I'd love to help you build a quarterly video roadmap.")]},
+    ]},
     {"title": "Week 9 — Advanced Production", "days": [
         {"topic": "Pre-production", "words": [("Concept [концэпт]", "Концепция"), ("Treatment [тритмэнт]", "Тритмент"), ("Shot list [шот лист]", "Список кадров"), ("Location [локэйшн]", "Локация"), ("Casting [кастинг]", "Кастинг"), ("Talent [тэлэнт]", "Актёр"), ("Voice over [войс оувэр]", "Закадровый голос"), ("Narration [нэрэйшн]", "Повествование"), ("Mood board [муд борд]", "Мудборд"), ("References [рэфэрэнсэс]", "Референсы")], "phrase": {"text": "Lights, camera, action!", "movie": "Classic film expression", "meaning": "Подготовка + инструменты + действие = результат."}, "dialogue": [("Client", "What do you need to start?"), ("You", "A brief, brand guidelines, and references."), ("You", "I'll prepare a treatment within 2 days.")]},
         {"topic": "Post-production", "words": [("Editing [эдитинг]", "Монтаж"), ("Color grading [колэр грэйдинг]", "Цветокоррекция"), ("Sound design [саунд дизайн]", "Звуковое оформление"), ("Motion graphics [моушн грэфикс]", "Моушн-графика"), ("Visual effects [вижуэл ифэктс]", "Визуальные эффекты"), ("Subtitles [сабтайтлс]", "Субтитры"), ("Export [экспорт]", "Экспорт"), ("Compression [компрэшн]", "Сжатие"), ("Resolution [рэзолюшн]", "Разрешение"), ("Aspect ratio [эспэкт рэйшо]", "Соотношение сторон")], "phrase": {"text": "The magic is in the edit.", "movie": "Walter Murch", "meaning": "Монтаж — где рождается история. Объясняй клиентам ценность постпродакшна."}, "dialogue": [("Client", "Why does post-production take so long?"), ("You", "Color grading, sound design, and motion graphics each take time."), ("You", "With our AI workflow, we've cut this by 50%.")]},
@@ -888,7 +465,6 @@ WEEKS = [
         {"topic": "Graduation vocabulary", "words": [("Achievement [эчивмэнт]", "Достижение"), ("Progress [прогрэс]", "Прогресс"), ("Milestone [майлстоун]", "Веха"), ("Fluent [флуэнт]", "Свободно владеющий"), ("Confident [конфидэнт]", "Уверенный"), ("Communicate [комьюникэйт]", "Общаться"), ("International [интэрнэшэнэл]", "Международный"), ("Professional [профэшэнэл]", "Профессиональный"), ("Ready [рэди]", "Готовый"), ("Success [саксэс]", "Успех")], "phrase": {"text": "This is not the end. It is the end of the beginning.", "movie": "Winston Churchill", "meaning": "Поздравляем! Программа завершена. Настоящая учёба только начинается с реальными клиентами."}, "dialogue": [("Client", "Your English is very good! Where did you learn?"), ("You", "Thank you! I've been studying business English intensively."), ("You", "Communication is as important as the work itself.")]},
         {"topic": "Final essential phrases", "words": [("How can I help you [хау кэн ай хэлп ю]", "Чем могу помочь"), ("What are your goals [уот ар ёр гоулс]", "Каковы ваши цели"), ("I understand your needs [ай андэстэнд ёр нидс]", "Понимаю ваши потребности"), ("Here's my proposal [хирз май пропоузэл]", "Вот моё предложение"), ("We can start immediately [ви кэн старт имидиэтли]", "Можем начать немедленно"), ("You're in good hands [юр ин гуд хэндс]", "Вы в надёжных руках"), ("I guarantee quality [ай гэрэнти куолити]", "Гарантирую качество"), ("Thank you for your trust [сэнк ю фор ёр траст]", "Спасибо за доверие"), ("Looking forward to working together [лукинг форвэрд ту вёркинг тугэдэр]", "С нетерпением жду работы"), ("Let's build something great [летс билд самсинг грэйт]", "Давайте создадим нечто великое")], "phrase": {"text": "And so the adventure begins.", "movie": "Universal", "meaning": "Программа завершена. Международный рынок ждёт. Вперёд, Lumora!"}, "dialogue": [("Client", "We'd like to work with you."), ("You", "Thank you for your trust. You're in good hands."), ("You", "I guarantee quality and look forward to working together."), ("You", "Let's build something great!")]},
     ]},
-
 ]
 
 QUIZ_TYPES = ["translate_to_en", "translate_to_ru", "choose_correct", "fill_blank"]
@@ -913,7 +489,7 @@ async def init_db():
             first_name TEXT,
             xp INTEGER DEFAULT 0,
             streak INTEGER DEFAULT 0,
-            last_day TEXT,
+            last_day TEXT DEFAULT '',
             total_days INTEGER DEFAULT 0,
             current_week INTEGER DEFAULT 0,
             current_day INTEGER DEFAULT 0,
@@ -922,6 +498,12 @@ async def init_db():
             joined_at TIMESTAMP DEFAULT NOW()
         )
     """)
+    # ─── FIX 1: автоматически добавляем колонку если не существует ─
+    try:
+        await conn.execute("ALTER TABLE users ADD COLUMN completed_lessons TEXT DEFAULT ''")
+        logger.info("Added completed_lessons column")
+    except Exception:
+        pass  # Колонка уже есть — ок
     await conn.execute("""
         CREATE TABLE IF NOT EXISTS weekly_results (
             id SERIAL PRIMARY KEY,
@@ -944,7 +526,7 @@ async def get_user(user_id: int):
 async def create_user(user_id: int, username: str, first_name: str):
     conn = await asyncpg.connect(DATABASE_URL)
     await conn.execute("""
-        INSERT INTO users (user_id, username, first_name) 
+        INSERT INTO users (user_id, username, first_name)
         VALUES ($1, $2, $3) ON CONFLICT DO NOTHING
     """, user_id, username, first_name)
     await conn.close()
@@ -966,9 +548,10 @@ async def get_leaderboard():
 
 async def save_weekly_result(user_id: int, week: int, score: int, total: int):
     conn = await asyncpg.connect(DATABASE_URL)
-    await conn.execute("""
-        INSERT INTO weekly_results (user_id, week_number, score, total) VALUES ($1, $2, $3, $4)
-    """, user_id, week, score, total)
+    await conn.execute(
+        "INSERT INTO weekly_results (user_id, week_number, score, total) VALUES ($1, $2, $3, $4)",
+        user_id, week, score, total
+    )
     await conn.close()
 
 # ─── ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ──────────────────────────────────────
@@ -994,11 +577,9 @@ def get_current_lesson(week_idx, day_idx):
         return None
     week = WEEKS[week_idx]
     days = week["days"]
-    # Days 0-4: new lessons, Days 5-6: review (repeat random lesson from week)
     if day_idx < len(days):
         return days[day_idx]
     else:
-        # Weekend review - return a random lesson from the week
         import random as _random
         return _random.choice(days)
 
@@ -1006,11 +587,8 @@ def generate_quiz(lesson, quiz_type=None):
     words = lesson["words"]
     if not quiz_type:
         quiz_type = random.choice(["translate_to_en", "translate_to_ru"])
-    
     word_en, word_ru = random.choice(words)
-    # Strip transcription from word_en for display (keep only the word itself)
     word_en_clean = word_en.split(" [")[0] if " [" in word_en else word_en
-    
     if quiz_type == "translate_to_ru":
         question = f"Переведи на русский:\n\n🇬🇧 *{word_en_clean}*"
         correct = word_ru
@@ -1023,31 +601,21 @@ def generate_quiz(lesson, quiz_type=None):
         wrong_pool = [w[0].split(" [")[0] if " [" in w[0] else w[0] for w in words if w[0] != word_en]
         options = [correct] + random.sample(wrong_pool, min(3, len(wrong_pool)))
         random.shuffle(options)
-    
-    # Truncate options to fit Telegram 64-byte callback limit
     correct_short = correct[:20] if len(correct) > 20 else correct
-    options_short = [o[:20] if len(o) > 20 else o for o in options]
-    # Replace correct in options_short
-    for i, o in enumerate(options):
-        if o == correct:
-            options_short[i] = correct_short
-    
+    options_short = []
+    for o in options:
+        s = o[:20] if len(o) > 20 else o
+        options_short.append(s)
     return {"question": question, "correct": correct_short, "options": options_short, "type": quiz_type}
 
 def generate_quiz_session(lesson):
-    """Generate 10 unique questions for a lesson test"""
+    """Генерирует 10 уникальных вопросов для теста урока"""
     words = lesson["words"]
     questions = []
-    used_words = set()
-    
-    # Use each word at most once, alternate question types
     all_words = list(words)
     random.shuffle(all_words)
-    
     for i, (word_en, word_ru) in enumerate(all_words[:10]):
         word_en_clean = word_en.split(" [")[0] if " [" in word_en else word_en
-        
-        # Alternate between EN->RU and RU->EN
         if i % 2 == 0:
             question = f"🇬🇧 *{word_en_clean}* → русский?"
             correct = word_ru[:25] if len(word_ru) > 25 else word_ru
@@ -1056,21 +624,12 @@ def generate_quiz_session(lesson):
             question = f"🇷🇺 *{word_ru}* → английский?"
             correct = word_en_clean[:25] if len(word_en_clean) > 25 else word_en_clean
             wrong_pool = [w[0].split(" [")[0][:25] for w in words if w[0] != word_en]
-        
         wrong_pool = [w for w in wrong_pool if w != correct]
         if len(wrong_pool) < 3:
             continue
-            
         options = [correct] + random.sample(wrong_pool, 3)
         random.shuffle(options)
-        
-        questions.append({
-            "question": question,
-            "correct": correct,
-            "options": options,
-            "num": i + 1
-        })
-    
+        questions.append({"question": question, "correct": correct, "options": options, "num": i + 1})
     return questions[:10]
 
 
@@ -1079,27 +638,22 @@ QUIZ_MOTIVATIONS_PERFECT = [
     "⭐ Идеальный результат! Клиенты оценят твой профессионализм!",
     "🏆 10 из 10! Вот это уровень! Продолжай в том же духе!",
 ]
-
 QUIZ_MOTIVATIONS_GOOD = [
     "💪 Отличный результат! Ещё пара повторений и будет идеально!",
     "📈 Хорошо! С каждым днём становишься увереннее!",
     "✅ Молодец! Эти слова уже в твоей памяти!",
 ]
-
 QUIZ_MOTIVATIONS_OK = [
     "📚 Неплохо! Повтори урок и результат будет выше!",
     "💡 Хороший старт! Повторение — мать учения!",
     "🎯 Продолжай! С каждым тестом становится легче!",
 ]
 
-
-
 # ─── ХЭНДЛЕРЫ ─────────────────────────────────────────────────────
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     await create_user(user.id, user.username or "", user.first_name or "")
-    
     keyboard = [
         [InlineKeyboardButton("📚 Урок дня", callback_data="lesson")],
         [InlineKeyboardButton("🎯 Тест", callback_data="quiz")],
@@ -1108,12 +662,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("🏆 Лидерборд", callback_data="leaderboard")],
         [InlineKeyboardButton("📊 Мой прогресс", callback_data="progress")],
     ]
-    
     await update.message.reply_text(
         f"👋 Привет, {user.first_name}!\n\n"
         f"Добро пожаловать в *Lumora English* — систему изучения бизнес-английского для команды.\n\n"
         f"Цель: через 4 месяца уверенно общаться с клиентами на английском.\n\n"
-        f"📅 Программа: 4 недели × 5 уроков\n"
+        f"📅 Программа: 16 недель × 5 уроков\n"
         f"⏱ В день: 10-15 минут\n"
         f"🎯 Фокус: слова, диалоги, фразы из фильмов\n\n"
         f"Начнём?",
@@ -1125,26 +678,20 @@ async def lesson_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     user_id = query.from_user.id
-    
     user = await get_user(user_id)
     if not user:
         await query.edit_message_text("Напиши /start чтобы начать.")
         return
-    
     week_idx = user["current_week"]
     day_idx = user["current_day"]
     lesson = get_current_lesson(week_idx, day_idx)
-    
     if not lesson:
         await query.edit_message_text("🎉 Ты прошёл всю программу! Напиши /start.")
         return
-    
     week = WEEKS[week_idx]
     phrase = lesson["phrase"]
-    
     words_text = "\n".join([f"• *{en}* — {ru}" for en, ru in lesson["words"]])
     dialogue_text = "\n".join([f"_{role}_: {line}" for role, line in lesson["dialogue"]])
-    
     text = (
         f"📚 *{week['title']}*\n"
         f"День {day_idx + 1}/7{' 🔄 Повторение' if day_idx >= 5 else ''} — {lesson['topic']}\n\n"
@@ -1155,42 +702,33 @@ async def lesson_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"💡 {phrase['meaning']}\n\n"
         f"*💬 Диалог:*\n{dialogue_text}"
     )
-    
     keyboard = [
-        [InlineKeyboardButton("🎯 Пройти тест по уроку", callback_data=f"quiz_lesson")],
+        [InlineKeyboardButton("🎯 Пройти тест по уроку", callback_data="quiz_lesson")],
         [InlineKeyboardButton("⬅️ Назад", callback_data="menu")],
     ]
-    
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def quiz_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     user_id = query.from_user.id
-    
     user = await get_user(user_id)
     if not user:
         await query.edit_message_text("Напиши /start чтобы начать.")
         return
-    
     lesson = get_current_lesson(user["current_week"], user["current_day"])
     if not lesson:
         await query.edit_message_text("Уроки закончились! Напиши /start.")
         return
-    
-    # Start new quiz session
     questions = generate_quiz_session(lesson)
     if not questions:
         await query.edit_message_text("Ошибка генерации теста.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Меню", callback_data="menu")]]))
         return
-    
     import json
     session = {"questions": questions, "current": 0, "score": 0, "total": len(questions)}
     await update_user(user_id, quiz_state=json.dumps(session))
-    
     q = questions[0]
     keyboard = [[InlineKeyboardButton(opt, callback_data=f"qa_{opt[:20]}")] for opt in q["options"]]
-    
     await query.edit_message_text(
         f"🎯 *Тест — {lesson['topic']}*\n"
         f"Вопрос 1/{len(questions)}\n\n"
@@ -1200,112 +738,129 @@ async def quiz_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 async def quiz_answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle quiz session answers"""
+    """Обрабатывает ответы в 10-вопросном тесте"""
     query = update.callback_query
     await query.answer()
     user_id = query.from_user.id
-    
     chosen = query.data.replace("qa_", "", 1)
-    
     user = await get_user(user_id)
     if not user:
         return
-    
     import json
     try:
         session = json.loads(user["quiz_state"]) if user["quiz_state"] else {}
-    except:
+    except Exception:
         session = {}
-    
     if not session or "questions" not in session:
-        await query.edit_message_text("Сессия истекла. Напиши /quiz.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🎯 Новый тест", callback_data="quiz")]]))
+        await query.edit_message_text(
+            "Сессия истекла. Начни новый тест.",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🎯 Новый тест", callback_data="quiz")]])
+        )
         return
-    
     questions = session["questions"]
     current = session["current"]
     score = session["score"]
     total = session["total"]
-    
+
+    # Защита от выхода за границы
+    if current >= len(questions):
+        await query.edit_message_text(
+            "Тест завершён!",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🏠 Меню", callback_data="menu")]])
+        )
+        return
+
     q = questions[current]
     correct = q["correct"]
     correct_short = correct[:20] if len(correct) > 20 else correct
-    
     is_correct = chosen == correct_short
     if is_correct:
         score += 1
-    
     current += 1
     session["current"] = current
     session["score"] = score
-    await update_user(user_id, quiz_state=json.dumps(session))
-    
+
     result_icon = "✅" if is_correct else "❌"
     result_text = f"{result_icon} {'Верно!' if is_correct else f'Неверно. Правильно: *{correct}*'}"
-    
+
     if current >= len(questions):
-        # Quiz complete
+        # ─── ТЕСТ ЗАВЕРШЁН ───────────────────────────────────────────
         pct = round(score / total * 100)
-        
         if score == total:
             motivation = random.choice(QUIZ_MOTIVATIONS_PERFECT)
         elif score >= total * 0.7:
             motivation = random.choice(QUIZ_MOTIVATIONS_GOOD)
         else:
             motivation = random.choice(QUIZ_MOTIVATIONS_OK)
-        
-        # Award XP only if lesson not already completed
+
+        today = today_str()
+        yesterday = (datetime.now(TIMEZONE) - timedelta(days=1)).strftime("%Y-%m-%d")
+        last_day = user.get("last_day") or ""
+
+        # ─── FIX 2: streak/days обновляем НЕЗАВИСИМО от других взаимодействий ──
+        # answer_handler (одиночный вопрос) НЕ меняет last_day
+        # Только quiz_answer_handler (полный тест) управляет last_day
+        streak = user["streak"]
+        total_days = user["total_days"]
+        first_completion_today = (last_day != today)
+
+        if first_completion_today:
+            streak = streak + 1 if last_day == yesterday else 1
+            total_days += 1
+
+        # XP только если урок не пройден ранее
         lesson_key = f"{user['current_week']}_{user['current_day']}"
-        completed_lessons = user.get("completed_lessons") or ""
-        already_done = lesson_key in completed_lessons.split(",")
-        
+        completed_lessons_str = user.get("completed_lessons") or ""
+        lessons_list = [l for l in completed_lessons_str.split(",") if l]
+        already_done = lesson_key in lessons_list
+
         if already_done:
             xp_gain = 0
             bonus_text = "\n_Этот урок уже пройден — XP за повторение не начисляется._"
         else:
             xp_gain = score * 5
             bonus_text = ""
+            lessons_list.append(lesson_key)
+
         new_xp = user["xp"] + xp_gain
-        
-        today = today_str()
-        streak = user["streak"]
-        total_days = user["total_days"]
-        if user["last_day"] != today:
-            from datetime import timedelta
-            yesterday = (datetime.now(TIMEZONE) - timedelta(days=1)).strftime("%Y-%m-%d")
-            streak = streak + 1 if user["last_day"] == yesterday else 1
-            total_days += 1
-        
-        # Advance day
+        new_completed = ",".join(lessons_list)
+
         new_day = user["current_day"]
         new_week = user["current_week"]
-        if user["last_day"] != today:
+        if first_completion_today and not already_done:
             new_day += 1
             if new_day >= 7:
                 new_day = 0
                 new_week += 1
-        
-        # Mark lesson as completed
-        lesson_key = f"{user['current_week']}_{user['current_day']}"
-        completed_lessons = user.get("completed_lessons") or ""
-        lessons_list = [l for l in completed_lessons.split(",") if l]
-        if lesson_key not in lessons_list:
-            lessons_list.append(lesson_key)
-        new_completed = ",".join(lessons_list)
-        
-        await update_user(user_id, xp=new_xp, streak=streak, total_days=total_days,
-                         last_day=today, current_day=new_day, current_week=new_week,
-                         quiz_state=json.dumps({}), completed_lessons=new_completed)
-        
+
+        # Сохраняем с fallback если колонки completed_lessons ещё нет
+        try:
+            await update_user(
+                user_id,
+                xp=new_xp, streak=streak, total_days=total_days,
+                last_day=today, current_day=new_day, current_week=new_week,
+                quiz_state=json.dumps({}), completed_lessons=new_completed
+            )
+        except Exception as e:
+            logger.error(f"update_user failed for {user_id}: {e}")
+            try:
+                await update_user(
+                    user_id,
+                    xp=new_xp, streak=streak, total_days=total_days,
+                    last_day=today, current_day=new_day, current_week=new_week,
+                    quiz_state=json.dumps({})
+                )
+            except Exception as e2:
+                logger.error(f"Fallback update also failed: {e2}")
+
         bar = xp_bar(new_xp)
         level = get_level(new_xp)
         level_name = LEVELS[level][1]
-        
         keyboard = [
             [InlineKeyboardButton("📚 Следующий урок", callback_data="lesson")],
             [InlineKeyboardButton("🔄 Повторить тест", callback_data="quiz")],
             [InlineKeyboardButton("🏠 Меню", callback_data="menu")],
         ]
-        
         xp_text = f"+{xp_gain} XP" if xp_gain > 0 else "0 XP (повтор)"
         await query.edit_message_text(
             f"{result_text}\n\n"
@@ -1320,12 +875,10 @@ async def quiz_answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
     else:
-        # Next question - safety check
-        if current >= len(questions):
-            current = len(questions) - 1
+        # ─── СЛЕДУЮЩИЙ ВОПРОС ────────────────────────────────────────
+        await update_user(user_id, quiz_state=json.dumps(session))
         next_q = questions[current]
         keyboard = [[InlineKeyboardButton(opt, callback_data=f"qa_{opt[:20]}")] for opt in next_q["options"]]
-        
         await query.edit_message_text(
             f"{result_text}\n\n"
             f"{'─'*22}\n"
@@ -1337,52 +890,29 @@ async def quiz_answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
 
 
 async def answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Одиночный вопрос для повторения уроков.
+    FIX 3: НЕ меняет last_day, streak, total_days — только XP.
+    Иначе блокирует streak у полного теста."""
     query = update.callback_query
     await query.answer()
-    
     data = query.data.replace("answer_", "", 1)
     parts = data.rsplit("_", 1)
     if len(parts) != 2:
         return
     chosen, correct = parts[0], parts[1]
-    
     user_id = query.from_user.id
     user = await get_user(user_id)
-    
+    if not user:
+        return
+
     if chosen == correct:
-        xp_gain = 10
+        xp_gain = 5
         new_xp = user["xp"] + xp_gain
-        
-        today = today_str()
-        streak = user["streak"]
-        total_days = user["total_days"]
-        
-        if user["last_day"] != today:
-            yesterday = (datetime.now(TIMEZONE) - timedelta(days=1)).strftime("%Y-%m-%d")
-            streak = streak + 1 if user["last_day"] == yesterday else 1
-            total_days += 1
-        
-        # Day advances only once per day
-        new_day = user["current_day"]
-        new_week = user["current_week"]
-        day_advanced = False
-        
-        if user["last_day"] != today:
-            new_day = user["current_day"] + 1
-            day_advanced = True
-            if new_day >= 7:
-                new_day = 0
-                new_week += 1
-        
-        await update_user(user_id, 
-            xp=new_xp, streak=streak, total_days=total_days,
-            last_day=today, current_day=new_day, current_week=new_week
-        )
-        
+        # ─── FIX 3: только XP, без last_day/streak/days ────────────
+        await update_user(user_id, xp=new_xp)
         level = get_level(new_xp)
         level_name = LEVELS[level][1]
         bar = xp_bar(new_xp)
-        
         motivations = [
             "Отлично! Так и строится словарный запас 🔥",
             "Правильно! Ещё один шаг к уверенному английскому 💪",
@@ -1390,24 +920,16 @@ async def answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Молодец! Каждое слово — это инвестиция в бизнес 📈",
             "Правильно! Lumora говорит по-английски 🌍",
         ]
-        
         keyboard = [
             [InlineKeyboardButton("➡️ Следующий вопрос", callback_data="quiz")],
             [InlineKeyboardButton("📚 К уроку", callback_data="lesson")],
             [InlineKeyboardButton("🏠 Меню", callback_data="menu")],
         ]
-        
-        extra = ""
-        if day_advanced and new_day == 0 and new_week > user["current_week"]:
-            extra = f"\n\n🎉 *Неделя {user['current_week'] + 1} завершена!* Отличная работа!\nНачинаем неделю {new_week + 1}."
-        elif day_advanced:
-            extra = f"\n\n📅 День {new_day}/5 — продолжай завтра!"
-        
         await query.edit_message_text(
             f"✅ *+{xp_gain} XP!*\n\n"
             f"{random.choice(motivations)}\n\n"
             f"{level_name}\n"
-            f"{bar}  {new_xp} XP{extra}",
+            f"{bar}  {new_xp} XP",
             parse_mode="Markdown",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
@@ -1417,7 +939,6 @@ async def answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("📚 К уроку", callback_data="lesson")],
             [InlineKeyboardButton("🏠 Меню", callback_data="menu")],
         ]
-        
         await query.edit_message_text(
             f"❌ Неправильно\n\n"
             f"Ты ответил: *{chosen}*\n"
@@ -1430,9 +951,7 @@ async def answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def leaderboard_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-    
     rows = await get_leaderboard()
-    
     if not rows:
         text = "🏆 Лидерборд пока пустой. Начни учиться первым!"
     else:
@@ -1442,9 +961,7 @@ async def leaderboard_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
             medal = medals[i] if i < len(medals) else f"{i+1}."
             week = row["current_week"] + 1
             lines.append(f"{medal} *{row['first_name']}* — {row['xp']} XP | Неделя {week} | 🔥{row['streak']}дн")
-        
         text = "🏆 *Лидерборд команды*\n\n" + "\n".join(lines)
-    
     keyboard = [[InlineKeyboardButton("⬅️ Назад", callback_data="menu")]]
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
@@ -1452,23 +969,20 @@ async def progress_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     user_id = query.from_user.id
-    
     user = await get_user(user_id)
     if not user:
         await query.edit_message_text("Напиши /start чтобы начать.")
         return
-    
     xp = user["xp"]
     level = get_level(xp)
     level_name = LEVELS[level][1]
     bar = xp_bar(xp)
-    
-    completed_days = user["current_week"] * 7 + user["current_day"]
-    total_words = completed_days * 10
+    completed_lessons_str = user.get("completed_lessons") or ""
+    completed_count = len([l for l in completed_lessons_str.split(",") if l])
+    total_words = completed_count * 10
     week_name = WEEKS[min(user["current_week"], len(WEEKS)-1)]["title"]
     next_level_xp = LEVELS[level + 1][0] if level + 1 < len(LEVELS) else LEVELS[level][0]
     xp_to_next = next_level_xp - xp
-    
     text = (
         f"📊 *Твой прогресс*\n\n"
         f"{level_name}\n"
@@ -1477,18 +991,16 @@ async def progress_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"🔥 Серия: {user['streak']} дн.\n"
         f"📅 Дней активности: {user['total_days']}\n"
         f"📚 Слов изучено: ~{total_words}\n"
-        f"📖 Уроков пройдено: {completed_days}\n\n"
+        f"📖 Уроков пройдено: {completed_count}\n\n"
         f"📌 Текущая тема:\n{week_name}\n"
         f"День {user['current_day'] + 1}/7"
     )
-    
     keyboard = [[InlineKeyboardButton("⬅️ Назад", callback_data="menu")]]
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-    
     keyboard = [
         [InlineKeyboardButton("📚 Урок дня", callback_data="lesson")],
         [InlineKeyboardButton("🎯 Тест", callback_data="quiz")],
@@ -1497,7 +1009,6 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("🏆 Лидерборд", callback_data="leaderboard")],
         [InlineKeyboardButton("📊 Мой прогресс", callback_data="progress")],
     ]
-    
     await query.edit_message_text(
         "🌍 *Lumora English*\n\nЧто хочешь делать?",
         parse_mode="Markdown",
@@ -1511,21 +1022,16 @@ async def morning_reminder(app):
         if now >= target:
             target += timedelta(days=1)
         await asyncio.sleep((target - now).total_seconds())
-        
         try:
             conn = await asyncpg.connect(DATABASE_URL)
             users = await conn.fetch("SELECT user_id, first_name, current_week, current_day FROM users")
             await conn.close()
-            
             keyboard = InlineKeyboardMarkup([
                 [InlineKeyboardButton("📚 Урок дня", callback_data="lesson")],
                 [InlineKeyboardButton("🎯 Тест", callback_data="quiz")],
             ])
-            
             for user in users:
-                week_idx = user["current_week"]
-                day_idx = user["current_day"]
-                lesson = get_current_lesson(week_idx, day_idx)
+                lesson = get_current_lesson(user["current_week"], user["current_day"])
                 if lesson:
                     try:
                         await app.bot.send_message(
@@ -1578,118 +1084,47 @@ async def vocab_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [[InlineKeyboardButton("⬅️ Назад", callback_data="menu")]]
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
-
-async def vocab_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show all words learned so far"""
-    user_id = update.effective_user.id if hasattr(update, 'effective_user') else update.callback_query.from_user.id
-    
-    if hasattr(update, 'message') and update.message:
-        send = update.message.reply_text
-    else:
-        send = update.callback_query.edit_message_text
-    
-    user = await get_user(user_id)
-    if not user:
-        await send("Напиши /start чтобы начать.")
-        return
-    
-    week_idx = user["current_week"]
-    day_idx = user["current_day"]
-    
-    if week_idx == 0 and day_idx == 0:
-        await send("Ты ещё не прошёл ни одного урока. Начни с /start → Урок дня!")
-        return
-    
-    lines = ["📖 *Твой словарик*\n"]
-    
-    for w in range(week_idx + 1):
-        week = WEEKS[w]
-        max_day = day_idx if w == week_idx else 5
-        
-        if max_day == 0 and w == week_idx:
-            continue
-            
-        lines.append(f"\n*{week['title']}*")
-        
-        for d in range(max_day):
-            lesson = week["days"][d]
-            lines.append(f"\n_{lesson['topic']}_")
-            for en, ru in lesson["words"]:
-                lines.append(f"• *{en}* — {ru}")
-    
-    text = "\n".join(lines)
-    
-    # Split if too long
-    if len(text) > 4000:
-        text = text[:4000] + "\n\n_...показаны первые слова_"
-    
-    keyboard = [[InlineKeyboardButton("⬅️ Назад", callback_data="menu")]]
-    
-    if hasattr(update, 'callback_query') and update.callback_query:
-        await update.callback_query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
-    else:
-        await update.message.reply_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
-
-
 async def review_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show list of completed lessons to review"""
     query = update.callback_query
     await query.answer()
     user_id = query.from_user.id
-    
     user = await get_user(user_id)
     if not user:
         await query.edit_message_text("Напиши /start чтобы начать.")
         return
-    
     week_idx = user["current_week"]
     day_idx = user["current_day"]
-    
     if week_idx == 0 and day_idx == 0:
         await query.edit_message_text("Ты ещё не прошёл ни одного урока!", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Назад", callback_data="menu")]]))
         return
-    
     keyboard = []
-    
     for w in range(week_idx + 1):
         week = WEEKS[w]
         max_day = day_idx if w == week_idx else 5
-        
         for d in range(max_day):
             lesson = week["days"][d]
-            keyboard.append([InlineKeyboardButton(
-                f"W{w+1}D{d+1} — {lesson['topic']}",
-                callback_data=f"review_{w}_{d}"
-            )])
-    
+            keyboard.append([InlineKeyboardButton(f"W{w+1}D{d+1} — {lesson['topic']}", callback_data=f"review_{w}_{d}")])
     keyboard.append([InlineKeyboardButton("⬅️ Назад", callback_data="menu")])
-    
     await query.edit_message_text(
         "📚 *Пройденные уроки*\n\nВыбери урок для повторения:",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
-
 async def review_lesson_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show a specific completed lesson for review"""
     query = update.callback_query
     await query.answer()
-    
     parts = query.data.split("_")
     week_idx = int(parts[1])
     day_idx = int(parts[2])
-    
     lesson = get_current_lesson(week_idx, day_idx)
     if not lesson:
         await query.edit_message_text("Урок не найден.")
         return
-    
     week = WEEKS[week_idx]
     phrase = lesson["phrase"]
     words_text = "\n".join([f"• *{en}* — {ru}" for en, ru in lesson["words"]])
     dialogue_text = "\n".join([f"_{role}_: {line}" for role, line in lesson["dialogue"]])
-    
     text = (
         f"🔄 *Повторение*\n"
         f"*{week['title']}* — {lesson['topic']}\n\n"
@@ -1700,42 +1135,31 @@ async def review_lesson_handler(update: Update, context: ContextTypes.DEFAULT_TY
         f"💡 {phrase['meaning']}\n\n"
         f"*💬 Диалог:*\n{dialogue_text}"
     )
-    
     keyboard = [
         [InlineKeyboardButton("🎯 Тест по этому уроку", callback_data=f"quiz_review_{week_idx}_{day_idx}")],
         [InlineKeyboardButton("⬅️ К списку уроков", callback_data="review")],
         [InlineKeyboardButton("🏠 Меню", callback_data="menu")],
     ]
-    
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
-
 async def quiz_review_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Quiz on a specific reviewed lesson"""
     query = update.callback_query
     await query.answer()
-    
     parts = query.data.split("_")
     week_idx = int(parts[2])
     day_idx = int(parts[3])
-    
     lesson = get_current_lesson(week_idx, day_idx)
     if not lesson:
         await query.edit_message_text("Урок не найден.")
         return
-    
     quiz = generate_quiz(lesson)
-    
-    keyboard = [[InlineKeyboardButton(opt, callback_data=f"answer_{opt}_{quiz['correct']}")] 
-                for opt in quiz["options"]]
+    keyboard = [[InlineKeyboardButton(opt, callback_data=f"answer_{opt}_{quiz['correct']}")] for opt in quiz["options"]]
     keyboard.append([InlineKeyboardButton("⬅️ К уроку", callback_data=f"review_{week_idx}_{day_idx}")])
-    
     await query.edit_message_text(
         f"🎯 *Тест — повторение*\n\n{quiz['question']}\n\nВыбери правильный ответ:",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
-
 
 async def lesson_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
@@ -1744,19 +1168,17 @@ async def lesson_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not user:
         await update.message.reply_text("Напиши /start чтобы начать.")
         return
-    week_idx = user["current_week"]
-    day_idx = user["current_day"]
-    lesson = get_current_lesson(week_idx, day_idx)
+    lesson = get_current_lesson(user["current_week"], user["current_day"])
     if not lesson:
         await update.message.reply_text("Ты прошёл всю программу! Напиши /start.")
         return
-    week = WEEKS[week_idx]
+    week = WEEKS[user["current_week"]]
     phrase = lesson["phrase"]
     words_text = "\n".join([f"• *{en}* — {ru}" for en, ru in lesson["words"]])
     dialogue_text = "\n".join([f"_{role}_: {line}" for role, line in lesson["dialogue"]])
     text = (
         f"📚 *{week['title']}*\n"
-        f"День {day_idx + 1}/7{' 🔄 Повторение' if day_idx >= 5 else ''} — {lesson['topic']}\n\n"
+        f"День {user['current_day'] + 1}/7 — {lesson['topic']}\n\n"
         f"*🔤 Слова дня:*\n{words_text}\n\n"
         f"*🎬 Фраза из фильма:*\n"
         f"_{phrase['text']}_\n"
@@ -1764,10 +1186,7 @@ async def lesson_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"💡 {phrase['meaning']}\n\n"
         f"*💬 Диалог:*\n{dialogue_text}"
     )
-    keyboard = [
-        [InlineKeyboardButton("🎯 Пройти тест по уроку", callback_data="quiz_lesson")],
-        [InlineKeyboardButton("⬅️ Назад", callback_data="menu")],
-    ]
+    keyboard = [[InlineKeyboardButton("🎯 Пройти тест по уроку", callback_data="quiz_lesson")], [InlineKeyboardButton("⬅️ Назад", callback_data="menu")]]
     await update.message.reply_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def quiz_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1801,9 +1220,9 @@ async def progress_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     level = get_level(xp)
     level_name = LEVELS[level][1]
     bar = xp_bar(xp)
-    # Words learned = completed days * 10 words per day
-    completed_days = user["current_week"] * 7 + user["current_day"]
-    total_words = completed_days * 10
+    completed_lessons_str = user.get("completed_lessons") or ""
+    completed_count = len([l for l in completed_lessons_str.split(",") if l])
+    total_words = completed_count * 10
     week_name = WEEKS[min(user["current_week"], len(WEEKS)-1)]["title"]
     next_level_xp = LEVELS[level + 1][0] if level + 1 < len(LEVELS) else LEVELS[level][0]
     xp_to_next = next_level_xp - xp
@@ -1815,7 +1234,7 @@ async def progress_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"🔥 Серия: {user['streak']} дн.\n"
         f"📅 Дней активности: {user['total_days']}\n"
         f"📚 Слов изучено: ~{total_words}\n"
-        f"📖 Уроков пройдено: {completed_days}\n\n"
+        f"📖 Уроков пройдено: {completed_count}\n\n"
         f"📌 {week_name}\n"
         f"День {user['current_day'] + 1}/7",
         parse_mode="Markdown"
@@ -1831,10 +1250,35 @@ async def leaderboard_command(update: Update, context: ContextTypes.DEFAULT_TYPE
     for i, row in enumerate(rows):
         medal = medals[i] if i < len(medals) else f"{i+1}."
         lines.append(f"{medal} *{row['first_name']}* — {row['xp']} XP | 🔥{row['streak']}дн")
-    await update.message.reply_text(
-        "🏆 *Лидерборд команды*\n\n" + "\n".join(lines),
-        parse_mode="Markdown"
-    )
+    await update.message.reply_text("🏆 *Лидерборд команды*\n\n" + "\n".join(lines), parse_mode="Markdown")
+
+async def vocab_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_user.id
+    user = await get_user(user_id)
+    if not user:
+        await update.message.reply_text("Напиши /start чтобы начать.")
+        return
+    week_idx = user["current_week"]
+    day_idx = user["current_day"]
+    if week_idx == 0 and day_idx == 0:
+        await update.message.reply_text("Ты ещё не прошёл ни одного урока. Начни с /start!")
+        return
+    lines = ["📖 *Твой словарик*\n"]
+    for w in range(week_idx + 1):
+        week = WEEKS[w]
+        max_day = day_idx if w == week_idx else 5
+        if max_day == 0 and w == week_idx:
+            continue
+        lines.append(f"\n*{week['title']}*")
+        for d in range(max_day):
+            lesson = week["days"][d]
+            lines.append(f"\n_{lesson['topic']}_")
+            for en, ru in lesson["words"]:
+                lines.append(f"• *{en}* — {ru}")
+    text = "\n".join(lines)
+    if len(text) > 4000:
+        text = text[:4000] + "\n\n_...показаны первые слова_"
+    await update.message.reply_text(text, parse_mode="Markdown")
 
 
 def main():
@@ -1844,6 +1288,7 @@ def main():
     app.add_handler(CommandHandler("quiz", quiz_command))
     app.add_handler(CommandHandler("progress", progress_command))
     app.add_handler(CommandHandler("leaderboard", leaderboard_command))
+    app.add_handler(CommandHandler("vocab", vocab_command))
     app.add_handler(CallbackQueryHandler(lesson_handler, pattern="^lesson$"))
     app.add_handler(CallbackQueryHandler(quiz_handler, pattern="^quiz_lesson$"))
     app.add_handler(CallbackQueryHandler(quiz_handler, pattern="^quiz$"))
@@ -1856,7 +1301,6 @@ def main():
     app.add_handler(CallbackQueryHandler(review_lesson_handler, pattern="^review_\\d+_\\d+$"))
     app.add_handler(CallbackQueryHandler(quiz_review_handler, pattern="^quiz_review_"))
     app.add_handler(CallbackQueryHandler(vocab_handler, pattern="^vocab$"))
-    app.add_handler(CommandHandler("vocab", vocab_command))
     logger.info("Lumora English Bot started!")
     app.run_polling(drop_pending_updates=True)
 
