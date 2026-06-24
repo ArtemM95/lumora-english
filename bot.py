@@ -1033,6 +1033,66 @@ def generate_quiz(lesson, quiz_type=None):
     
     return {"question": question, "correct": correct_short, "options": options_short, "type": quiz_type}
 
+def generate_quiz_session(lesson):
+    """Generate 10 unique questions for a lesson test"""
+    words = lesson["words"]
+    questions = []
+    used_words = set()
+    
+    # Use each word at most once, alternate question types
+    all_words = list(words)
+    random.shuffle(all_words)
+    
+    for i, (word_en, word_ru) in enumerate(all_words[:10]):
+        word_en_clean = word_en.split(" [")[0] if " [" in word_en else word_en
+        
+        # Alternate between EN->RU and RU->EN
+        if i % 2 == 0:
+            question = f"🇬🇧 *{word_en_clean}* → русский?"
+            correct = word_ru[:25] if len(word_ru) > 25 else word_ru
+            wrong_pool = [w[1][:25] if len(w[1]) > 25 else w[1] for w in words if w[0] != word_en]
+        else:
+            question = f"🇷🇺 *{word_ru}* → английский?"
+            correct = word_en_clean[:25] if len(word_en_clean) > 25 else word_en_clean
+            wrong_pool = [w[0].split(" [")[0][:25] for w in words if w[0] != word_en]
+        
+        wrong_pool = [w for w in wrong_pool if w != correct]
+        if len(wrong_pool) < 3:
+            continue
+            
+        options = [correct] + random.sample(wrong_pool, 3)
+        random.shuffle(options)
+        
+        questions.append({
+            "question": question,
+            "correct": correct,
+            "options": options,
+            "num": i + 1
+        })
+    
+    return questions[:10]
+
+
+QUIZ_MOTIVATIONS_PERFECT = [
+    "🔥 10/10! Ты машина! Lumora говорит по-английски!",
+    "⭐ Идеальный результат! Клиенты оценят твой профессионализм!",
+    "🏆 10 из 10! Вот это уровень! Продолжай в том же духе!",
+]
+
+QUIZ_MOTIVATIONS_GOOD = [
+    "💪 Отличный результат! Ещё пара повторений и будет идеально!",
+    "📈 Хорошо! С каждым днём становишься увереннее!",
+    "✅ Молодец! Эти слова уже в твоей памяти!",
+]
+
+QUIZ_MOTIVATIONS_OK = [
+    "📚 Неплохо! Повтори урок и результат будет выше!",
+    "💡 Хороший старт! Повторение — мать учения!",
+    "🎯 Продолжай! С каждым тестом становится легче!",
+]
+
+
+
 # ─── ХЭНДЛЕРЫ ─────────────────────────────────────────────────────
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1112,33 +1172,148 @@ async def quiz_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_text("Напиши /start чтобы начать.")
         return
     
-    week_idx = user["current_week"]
-    day_idx = user["current_day"]
-    lesson = get_current_lesson(week_idx, day_idx)
-    
+    lesson = get_current_lesson(user["current_week"], user["current_day"])
     if not lesson:
         await query.edit_message_text("Уроки закончились! Напиши /start.")
         return
     
-    quiz = generate_quiz(lesson)
-    
-    keyboard = [[InlineKeyboardButton(opt, callback_data=f"answer_{opt}_{quiz['correct']}")] 
-                for opt in quiz["options"]]
-    keyboard.append([InlineKeyboardButton("⬅️ Назад", callback_data="menu")])
+    # Start new quiz session
+    questions = generate_quiz_session(lesson)
+    if not questions:
+        await query.edit_message_text("Ошибка генерации теста.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Меню", callback_data="menu")]]))
+        return
     
     import json
-    await update_user(user_id, quiz_state=json.dumps({
-        "correct": quiz["correct"],
-        "week": week_idx,
-        "day": day_idx,
-        "lesson_topic": lesson["topic"]
-    }))
+    session = {"questions": questions, "current": 0, "score": 0, "total": len(questions)}
+    await update_user(user_id, quiz_state=json.dumps(session))
+    
+    q = questions[0]
+    keyboard = [[InlineKeyboardButton(opt, callback_data=f"qa_{opt[:20]}")] for opt in q["options"]]
     
     await query.edit_message_text(
-        f"🎯 *Тест*\n\n{quiz['question']}\n\nВыбери правильный ответ:",
+        f"🎯 *Тест — {lesson['topic']}*\n"
+        f"Вопрос 1/{len(questions)}\n\n"
+        f"{q['question']}\n\nВыбери правильный ответ:",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
+
+async def quiz_answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle quiz session answers"""
+    query = update.callback_query
+    await query.answer()
+    user_id = query.from_user.id
+    
+    chosen = query.data.replace("qa_", "", 1)
+    
+    user = await get_user(user_id)
+    if not user:
+        return
+    
+    import json
+    try:
+        session = json.loads(user["quiz_state"]) if user["quiz_state"] else {}
+    except:
+        session = {}
+    
+    if not session or "questions" not in session:
+        await query.edit_message_text("Сессия истекла. Напиши /quiz.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🎯 Новый тест", callback_data="quiz")]]))
+        return
+    
+    questions = session["questions"]
+    current = session["current"]
+    score = session["score"]
+    total = session["total"]
+    
+    q = questions[current]
+    correct = q["correct"]
+    correct_short = correct[:20] if len(correct) > 20 else correct
+    
+    is_correct = chosen == correct_short
+    if is_correct:
+        score += 1
+    
+    current += 1
+    session["current"] = current
+    session["score"] = score
+    await update_user(user_id, quiz_state=json.dumps(session))
+    
+    result_icon = "✅" if is_correct else "❌"
+    result_text = f"{result_icon} {'Верно!' if is_correct else f'Неверно. Правильно: *{correct}*'}"
+    
+    if current >= total:
+        # Quiz complete
+        pct = round(score / total * 100)
+        
+        if score == total:
+            motivation = random.choice(QUIZ_MOTIVATIONS_PERFECT)
+        elif score >= total * 0.7:
+            motivation = random.choice(QUIZ_MOTIVATIONS_GOOD)
+        else:
+            motivation = random.choice(QUIZ_MOTIVATIONS_OK)
+        
+        # Award XP
+        xp_gain = score * 5
+        new_xp = user["xp"] + xp_gain
+        
+        today = today_str()
+        streak = user["streak"]
+        total_days = user["total_days"]
+        if user["last_day"] != today:
+            from datetime import timedelta
+            yesterday = (datetime.now(TIMEZONE) - timedelta(days=1)).strftime("%Y-%m-%d")
+            streak = streak + 1 if user["last_day"] == yesterday else 1
+            total_days += 1
+        
+        # Advance day
+        new_day = user["current_day"]
+        new_week = user["current_week"]
+        if user["last_day"] != today:
+            new_day += 1
+            if new_day >= 7:
+                new_day = 0
+                new_week += 1
+        
+        await update_user(user_id, xp=new_xp, streak=streak, total_days=total_days,
+                         last_day=today, current_day=new_day, current_week=new_week,
+                         quiz_state=json.dumps({}))
+        
+        bar = xp_bar(new_xp)
+        level = get_level(new_xp)
+        level_name = LEVELS[level][1]
+        
+        keyboard = [
+            [InlineKeyboardButton("📚 Следующий урок", callback_data="lesson")],
+            [InlineKeyboardButton("🔄 Повторить тест", callback_data="quiz")],
+            [InlineKeyboardButton("🏠 Меню", callback_data="menu")],
+        ]
+        
+        await query.edit_message_text(
+            f"{result_text}\n\n"
+            f"{'─'*22}\n"
+            f"🎯 *Результат теста*\n"
+            f"Правильных ответов: *{score}/{total}* ({pct}%)\n\n"
+            f"{motivation}\n\n"
+            f"+{xp_gain} XP\n"
+            f"{level_name}\n"
+            f"{bar}  {new_xp} XP",
+            parse_mode="Markdown",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+    else:
+        # Next question
+        next_q = questions[current]
+        keyboard = [[InlineKeyboardButton(opt, callback_data=f"qa_{opt[:20]}")] for opt in next_q["options"]]
+        
+        await query.edit_message_text(
+            f"{result_text}\n\n"
+            f"{'─'*22}\n"
+            f"Вопрос {current + 1}/{total}\n\n"
+            f"{next_q['question']}\n\nВыбери правильный ответ:",
+            parse_mode="Markdown",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
 
 async def answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -1640,6 +1815,7 @@ def main():
     app.add_handler(CallbackQueryHandler(lesson_handler, pattern="^lesson$"))
     app.add_handler(CallbackQueryHandler(quiz_handler, pattern="^quiz_lesson$"))
     app.add_handler(CallbackQueryHandler(quiz_handler, pattern="^quiz$"))
+    app.add_handler(CallbackQueryHandler(quiz_answer_handler, pattern="^qa_"))
     app.add_handler(CallbackQueryHandler(answer_handler, pattern="^answer_"))
     app.add_handler(CallbackQueryHandler(leaderboard_handler, pattern="^leaderboard$"))
     app.add_handler(CallbackQueryHandler(progress_handler, pattern="^progress$"))
