@@ -827,7 +827,7 @@ async def quiz_answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
 
         new_day = user["current_day"]
         new_week = user["current_week"]
-        if first_completion_today and not already_done:
+        if first_completion_today:
             new_day += 1
             if new_day >= 7:
                 new_day = 0
