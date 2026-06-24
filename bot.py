@@ -547,7 +547,7 @@ WEEKS = [
                 ]
             },
         ]
-    },,
+    },
     # НЕДЕЛЯ 5 — Презентации и питчи
     {
         "title": "Week 5 — Presenting & Pitching",
