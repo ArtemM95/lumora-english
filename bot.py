@@ -1451,8 +1451,7 @@ async def progress_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"{bar}  {xp} XP\n\n"
         f"🔥 Серия: {user['streak']} дн.\n"
         f"📅 Дней активности: {user['total_days']}\n"
-        f"📚 Слов изучено: ~{total_words}\n"
-        f"📖 Уроков пройдено: {completed_days}\n\n"
+        f"📚 Слов изучено: ~{total_words}\n\n"
         f"📌 Текущая тема:\n{week_name}\n"
         f"День {user['current_day'] + 1}/7"
     )
