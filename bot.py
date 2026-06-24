@@ -918,6 +918,7 @@ async def init_db():
             current_week INTEGER DEFAULT 0,
             current_day INTEGER DEFAULT 0,
             quiz_state JSONB DEFAULT '{}'::jsonb,
+            completed_lessons TEXT DEFAULT '',
             joined_at TIMESTAMP DEFAULT NOW()
         )
     """)
@@ -1252,8 +1253,17 @@ async def quiz_answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
         else:
             motivation = random.choice(QUIZ_MOTIVATIONS_OK)
         
-        # Award XP
-        xp_gain = score * 5
+        # Award XP only if lesson not already completed
+        lesson_key = f"{user['current_week']}_{user['current_day']}"
+        completed_lessons = user.get("completed_lessons") or ""
+        already_done = lesson_key in completed_lessons.split(",")
+        
+        if already_done:
+            xp_gain = 0
+            bonus_text = "\n_Этот урок уже пройден — XP за повторение не начисляется._"
+        else:
+            xp_gain = score * 5
+            bonus_text = ""
         new_xp = user["xp"] + xp_gain
         
         today = today_str()
@@ -1274,9 +1284,17 @@ async def quiz_answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
                 new_day = 0
                 new_week += 1
         
+        # Mark lesson as completed
+        lesson_key = f"{user['current_week']}_{user['current_day']}"
+        completed_lessons = user.get("completed_lessons") or ""
+        lessons_list = [l for l in completed_lessons.split(",") if l]
+        if lesson_key not in lessons_list:
+            lessons_list.append(lesson_key)
+        new_completed = ",".join(lessons_list)
+        
         await update_user(user_id, xp=new_xp, streak=streak, total_days=total_days,
                          last_day=today, current_day=new_day, current_week=new_week,
-                         quiz_state=json.dumps({}))
+                         quiz_state=json.dumps({}), completed_lessons=new_completed)
         
         bar = xp_bar(new_xp)
         level = get_level(new_xp)
@@ -1288,15 +1306,16 @@ async def quiz_answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
             [InlineKeyboardButton("🏠 Меню", callback_data="menu")],
         ]
         
+        xp_text = f"+{xp_gain} XP" if xp_gain > 0 else "0 XP (повтор)"
         await query.edit_message_text(
             f"{result_text}\n\n"
             f"{'─'*22}\n"
             f"🎯 *Результат теста*\n"
             f"Правильных ответов: *{score}/{total}* ({pct}%)\n\n"
             f"{motivation}\n\n"
-            f"+{xp_gain} XP\n"
+            f"{xp_text}\n"
             f"{level_name}\n"
-            f"{bar}  {new_xp} XP",
+            f"{bar}  {new_xp} XP{bonus_text}",
             parse_mode="Markdown",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
