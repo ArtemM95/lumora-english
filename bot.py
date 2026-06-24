@@ -1450,10 +1450,11 @@ async def progress_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"{level_name}\n"
         f"{bar}  {xp} XP\n\n"
         f"🔥 Серия: {user['streak']} дн.\n"
-        f"📅 Всего дней: {user['total_days']}\n"
-        f"📚 Слов изучено: ~{total_words}\n\n"
+        f"📅 Дней активности: {user['total_days']}\n"
+        f"📚 Слов изучено: ~{total_words}\n"
+        f"📖 Уроков пройдено: {completed_days}\n\n"
         f"📌 Текущая тема:\n{week_name}\n"
-        f"День {user['current_day'] + 1}/5"
+        f"День {user['current_day'] + 1}/7"
     )
     
     keyboard = [[InlineKeyboardButton("⬅️ Назад", callback_data="menu")]]
@@ -1775,17 +1776,23 @@ async def progress_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     level = get_level(xp)
     level_name = LEVELS[level][1]
     bar = xp_bar(xp)
-    total_words = (user["current_week"] * 5 + user["current_day"]) * 10
+    # Words learned = completed days * 10 words per day
+    completed_days = user["current_week"] * 7 + user["current_day"]
+    total_words = completed_days * 10
     week_name = WEEKS[min(user["current_week"], len(WEEKS)-1)]["title"]
+    next_level_xp = LEVELS[level + 1][0] if level + 1 < len(LEVELS) else LEVELS[level][0]
+    xp_to_next = next_level_xp - xp
     await update.message.reply_text(
         f"📊 *Твой прогресс*\n\n"
         f"{level_name}\n"
-        f"{bar}  {xp} XP\n\n"
+        f"{bar}  {xp} XP\n"
+        f"До след. уровня: {xp_to_next} XP\n\n"
         f"🔥 Серия: {user['streak']} дн.\n"
-        f"📅 Всего дней: {user['total_days']}\n"
-        f"📚 Слов изучено: ~{total_words}\n\n"
+        f"📅 Дней активности: {user['total_days']}\n"
+        f"📚 Слов изучено: ~{total_words}\n"
+        f"📖 Уроков пройдено: {completed_days}\n\n"
         f"📌 {week_name}\n"
-        f"День {user['current_day'] + 1}/5",
+        f"День {user['current_day'] + 1}/7",
         parse_mode="Markdown"
     )
 
