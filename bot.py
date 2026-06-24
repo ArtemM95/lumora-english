@@ -1242,9 +1242,8 @@ async def quiz_answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
     result_icon = "✅" if is_correct else "❌"
     result_text = f"{result_icon} {'Верно!' if is_correct else f'Неверно. Правильно: *{correct}*'}"
     
-    if current >= total or current >= len(questions):
+    if current >= len(questions):
         # Quiz complete
-        current = total  # Ensure we don't go out of bounds
         pct = round(score / total * 100)
         
         if score == total:
