@@ -817,12 +817,17 @@ async def answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             streak = streak + 1 if user["last_day"] == yesterday else 1
             total_days += 1
         
-        new_day = user["current_day"] + 1
+        # Day advances only once per day
+        new_day = user["current_day"]
         new_week = user["current_week"]
+        day_advanced = False
         
-        if new_day >= 5:
-            new_day = 0
-            new_week += 1
+        if user["last_day"] != today:
+            new_day = user["current_day"] + 1
+            day_advanced = True
+            if new_day >= 5:
+                new_day = 0
+                new_week += 1
         
         await update_user(user_id, 
             xp=new_xp, streak=streak, total_days=total_days,
@@ -847,10 +852,11 @@ async def answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("🏠 Меню", callback_data="menu")],
         ]
         
-        week_done = new_day == 0 and new_week > user["current_week"]
         extra = ""
-        if week_done:
+        if day_advanced and new_day == 0 and new_week > user["current_week"]:
             extra = f"\n\n🎉 *Неделя {user['current_week'] + 1} завершена!* Отличная работа!\nНачинаем неделю {new_week + 1}."
+        elif day_advanced:
+            extra = f"\n\n📅 День {new_day}/5 — продолжай завтра!"
         
         await query.edit_message_text(
             f"✅ *+{xp_gain} XP!*\n\n"
