@@ -695,6 +695,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton("📚 Урок дня", callback_data="lesson")],
         [InlineKeyboardButton("🎯 Тест", callback_data="quiz")],
+        [InlineKeyboardButton("🔄 Повторить урок", callback_data="review")],
+        [InlineKeyboardButton("📖 Мой словарик", callback_data="vocab")],
         [InlineKeyboardButton("🏆 Лидерборд", callback_data="leaderboard")],
         [InlineKeyboardButton("📊 Мой прогресс", callback_data="progress")],
     ]
@@ -942,6 +944,8 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton("📚 Урок дня", callback_data="lesson")],
         [InlineKeyboardButton("🎯 Тест", callback_data="quiz")],
+        [InlineKeyboardButton("🔄 Повторить урок", callback_data="review")],
+        [InlineKeyboardButton("📖 Мой словарик", callback_data="vocab")],
         [InlineKeyboardButton("🏆 Лидерборд", callback_data="leaderboard")],
         [InlineKeyboardButton("📊 Мой прогресс", callback_data="progress")],
     ]
@@ -995,6 +999,196 @@ async def post_init(app):
     await init_db()
     asyncio.create_task(morning_reminder(app))
 
+async def vocab_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    user_id = query.from_user.id
+    user = await get_user(user_id)
+    if not user:
+        await query.edit_message_text("Напиши /start чтобы начать.")
+        return
+    week_idx = user["current_week"]
+    day_idx = user["current_day"]
+    if week_idx == 0 and day_idx == 0:
+        await query.edit_message_text("Ты ещё не прошёл ни одного урока!", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Назад", callback_data="menu")]]))
+        return
+    lines = ["📖 *Твой словарик*\n"]
+    for w in range(week_idx + 1):
+        week = WEEKS[w]
+        max_day = day_idx if w == week_idx else 5
+        if max_day == 0 and w == week_idx:
+            continue
+        lines.append(f"\n*{week['title']}*")
+        for d in range(max_day):
+            lesson = week["days"][d]
+            lines.append(f"\n_{lesson['topic']}_")
+            for en, ru in lesson["words"]:
+                lines.append(f"• *{en}* — {ru}")
+    text = "\n".join(lines)
+    if len(text) > 4000:
+        text = text[:4000] + "\n\n_...показаны первые слова_"
+    keyboard = [[InlineKeyboardButton("⬅️ Назад", callback_data="menu")]]
+    await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
+
+
+async def vocab_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show all words learned so far"""
+    user_id = update.effective_user.id if hasattr(update, 'effective_user') else update.callback_query.from_user.id
+    
+    if hasattr(update, 'message') and update.message:
+        send = update.message.reply_text
+    else:
+        send = update.callback_query.edit_message_text
+    
+    user = await get_user(user_id)
+    if not user:
+        await send("Напиши /start чтобы начать.")
+        return
+    
+    week_idx = user["current_week"]
+    day_idx = user["current_day"]
+    
+    if week_idx == 0 and day_idx == 0:
+        await send("Ты ещё не прошёл ни одного урока. Начни с /start → Урок дня!")
+        return
+    
+    lines = ["📖 *Твой словарик*\n"]
+    
+    for w in range(week_idx + 1):
+        week = WEEKS[w]
+        max_day = day_idx if w == week_idx else 5
+        
+        if max_day == 0 and w == week_idx:
+            continue
+            
+        lines.append(f"\n*{week['title']}*")
+        
+        for d in range(max_day):
+            lesson = week["days"][d]
+            lines.append(f"\n_{lesson['topic']}_")
+            for en, ru in lesson["words"]:
+                lines.append(f"• *{en}* — {ru}")
+    
+    text = "\n".join(lines)
+    
+    # Split if too long
+    if len(text) > 4000:
+        text = text[:4000] + "\n\n_...показаны первые слова_"
+    
+    keyboard = [[InlineKeyboardButton("⬅️ Назад", callback_data="menu")]]
+    
+    if hasattr(update, 'callback_query') and update.callback_query:
+        await update.callback_query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
+    else:
+        await update.message.reply_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
+
+
+async def review_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show list of completed lessons to review"""
+    query = update.callback_query
+    await query.answer()
+    user_id = query.from_user.id
+    
+    user = await get_user(user_id)
+    if not user:
+        await query.edit_message_text("Напиши /start чтобы начать.")
+        return
+    
+    week_idx = user["current_week"]
+    day_idx = user["current_day"]
+    
+    if week_idx == 0 and day_idx == 0:
+        await query.edit_message_text("Ты ещё не прошёл ни одного урока!", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Назад", callback_data="menu")]]))
+        return
+    
+    keyboard = []
+    
+    for w in range(week_idx + 1):
+        week = WEEKS[w]
+        max_day = day_idx if w == week_idx else 5
+        
+        for d in range(max_day):
+            lesson = week["days"][d]
+            keyboard.append([InlineKeyboardButton(
+                f"W{w+1}D{d+1} — {lesson['topic']}",
+                callback_data=f"review_{w}_{d}"
+            )])
+    
+    keyboard.append([InlineKeyboardButton("⬅️ Назад", callback_data="menu")])
+    
+    await query.edit_message_text(
+        "📚 *Пройденные уроки*\n\nВыбери урок для повторения:",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
+
+async def review_lesson_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show a specific completed lesson for review"""
+    query = update.callback_query
+    await query.answer()
+    
+    parts = query.data.split("_")
+    week_idx = int(parts[1])
+    day_idx = int(parts[2])
+    
+    lesson = get_current_lesson(week_idx, day_idx)
+    if not lesson:
+        await query.edit_message_text("Урок не найден.")
+        return
+    
+    week = WEEKS[week_idx]
+    phrase = lesson["phrase"]
+    words_text = "\n".join([f"• *{en}* — {ru}" for en, ru in lesson["words"]])
+    dialogue_text = "\n".join([f"_{role}_: {line}" for role, line in lesson["dialogue"]])
+    
+    text = (
+        f"🔄 *Повторение*\n"
+        f"*{week['title']}* — {lesson['topic']}\n\n"
+        f"*🔤 Слова:*\n{words_text}\n\n"
+        f"*🎬 Фраза из фильма:*\n"
+        f"_{phrase['text']}_\n"
+        f"📽 {phrase['movie']}\n"
+        f"💡 {phrase['meaning']}\n\n"
+        f"*💬 Диалог:*\n{dialogue_text}"
+    )
+    
+    keyboard = [
+        [InlineKeyboardButton("🎯 Тест по этому уроку", callback_data=f"quiz_review_{week_idx}_{day_idx}")],
+        [InlineKeyboardButton("⬅️ К списку уроков", callback_data="review")],
+        [InlineKeyboardButton("🏠 Меню", callback_data="menu")],
+    ]
+    
+    await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
+
+
+async def quiz_review_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Quiz on a specific reviewed lesson"""
+    query = update.callback_query
+    await query.answer()
+    
+    parts = query.data.split("_")
+    week_idx = int(parts[2])
+    day_idx = int(parts[3])
+    
+    lesson = get_current_lesson(week_idx, day_idx)
+    if not lesson:
+        await query.edit_message_text("Урок не найден.")
+        return
+    
+    quiz = generate_quiz(lesson)
+    
+    keyboard = [[InlineKeyboardButton(opt, callback_data=f"answer_{opt}_{quiz['correct']}")] 
+                for opt in quiz["options"]]
+    keyboard.append([InlineKeyboardButton("⬅️ К уроку", callback_data=f"review_{week_idx}_{day_idx}")])
+    
+    await query.edit_message_text(
+        f"🎯 *Тест — повторение*\n\n{quiz['question']}\n\nВыбери правильный ответ:",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
+
 def main():
     app = Application.builder().token(TOKEN).post_init(post_init).build()
     app.add_handler(CommandHandler("start", start))
@@ -1005,6 +1199,11 @@ def main():
     app.add_handler(CallbackQueryHandler(leaderboard_handler, pattern="^leaderboard$"))
     app.add_handler(CallbackQueryHandler(progress_handler, pattern="^progress$"))
     app.add_handler(CallbackQueryHandler(menu_handler, pattern="^menu$"))
+    app.add_handler(CallbackQueryHandler(review_handler, pattern="^review$"))
+    app.add_handler(CallbackQueryHandler(review_lesson_handler, pattern="^review_\\d+_\\d+$"))
+    app.add_handler(CallbackQueryHandler(quiz_review_handler, pattern="^quiz_review_"))
+    app.add_handler(CallbackQueryHandler(vocab_handler, pattern="^vocab$"))
+    app.add_handler(CommandHandler("vocab", vocab_command))
     logger.info("Lumora English Bot started!")
     app.run_polling(drop_pending_updates=True)
 
