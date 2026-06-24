@@ -993,7 +993,7 @@ def main():
     app = Application.builder().token(TOKEN).post_init(post_init).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(lesson_handler, pattern="^lesson$"))
-    app.add_handler(CallbackQueryHandler(lesson_handler, pattern="^quiz_lesson$"))
+    app.add_handler(CallbackQueryHandler(quiz_handler, pattern="^quiz_lesson$"))
     app.add_handler(CallbackQueryHandler(quiz_handler, pattern="^quiz$"))
     app.add_handler(CallbackQueryHandler(answer_handler, pattern="^answer_"))
     app.add_handler(CallbackQueryHandler(leaderboard_handler, pattern="^leaderboard$"))
