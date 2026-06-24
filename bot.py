@@ -992,9 +992,14 @@ def get_current_lesson(week_idx, day_idx):
     if week_idx >= len(WEEKS):
         return None
     week = WEEKS[week_idx]
-    if day_idx >= len(week["days"]):
-        return None
-    return week["days"][day_idx]
+    days = week["days"]
+    # Days 0-4: new lessons, Days 5-6: review (repeat random lesson from week)
+    if day_idx < len(days):
+        return days[day_idx]
+    else:
+        # Weekend review - return a random lesson from the week
+        import random as _random
+        return _random.choice(days)
 
 def generate_quiz(lesson, quiz_type=None):
     words = lesson["words"]
@@ -1080,7 +1085,7 @@ async def lesson_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     text = (
         f"📚 *{week['title']}*\n"
-        f"День {day_idx + 1}/5 — {lesson['topic']}\n\n"
+        f"День {day_idx + 1}/7{' 🔄 Повторение' if day_idx >= 5 else ''} — {lesson['topic']}\n\n"
         f"*🔤 Слова дня:*\n{words_text}\n\n"
         f"*🎬 Фраза из фильма:*\n"
         f"_{phrase['text']}_\n"
@@ -1168,7 +1173,7 @@ async def answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if user["last_day"] != today:
             new_day = user["current_day"] + 1
             day_advanced = True
-            if new_day >= 5:
+            if new_day >= 7:
                 new_day = 0
                 new_week += 1
         
@@ -1549,7 +1554,7 @@ async def lesson_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     dialogue_text = "\n".join([f"_{role}_: {line}" for role, line in lesson["dialogue"]])
     text = (
         f"📚 *{week['title']}*\n"
-        f"День {day_idx + 1}/5 — {lesson['topic']}\n\n"
+        f"День {day_idx + 1}/7{' 🔄 Повторение' if day_idx >= 5 else ''} — {lesson['topic']}\n\n"
         f"*🔤 Слова дня:*\n{words_text}\n\n"
         f"*🎬 Фраза из фильма:*\n"
         f"_{phrase['text']}_\n"
