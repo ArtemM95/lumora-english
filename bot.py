@@ -1004,33 +1004,34 @@ def get_current_lesson(week_idx, day_idx):
 def generate_quiz(lesson, quiz_type=None):
     words = lesson["words"]
     if not quiz_type:
-        quiz_type = random.choice(QUIZ_TYPES)
+        quiz_type = random.choice(["translate_to_en", "translate_to_ru"])
     
     word_en, word_ru = random.choice(words)
+    # Strip transcription from word_en for display (keep only the word itself)
+    word_en_clean = word_en.split(" [")[0] if " [" in word_en else word_en
     
-    if quiz_type == "translate_to_en":
-        question = f"Переведи на английский:\n\n🇷🇺 *{word_ru}*"
-        correct = word_en
-        wrong_pool = [w[0] for w in words if w[0] != word_en]
-        options = [correct] + random.sample(wrong_pool, min(3, len(wrong_pool)))
-        random.shuffle(options)
-        return {"question": question, "correct": correct, "options": options, "type": quiz_type}
-    
-    elif quiz_type == "translate_to_ru":
-        question = f"Переведи на русский:\n\n🇬🇧 *{word_en}*"
+    if quiz_type == "translate_to_ru":
+        question = f"Переведи на русский:\n\n🇬🇧 *{word_en_clean}*"
         correct = word_ru
         wrong_pool = [w[1] for w in words if w[1] != word_ru]
         options = [correct] + random.sample(wrong_pool, min(3, len(wrong_pool)))
         random.shuffle(options)
-        return {"question": question, "correct": correct, "options": options, "type": quiz_type}
-    
     else:
         question = f"Переведи на английский:\n\n🇷🇺 *{word_ru}*"
-        correct = word_en
-        wrong_pool = [w[0] for w in words if w[0] != word_en]
+        correct = word_en_clean
+        wrong_pool = [w[0].split(" [")[0] if " [" in w[0] else w[0] for w in words if w[0] != word_en]
         options = [correct] + random.sample(wrong_pool, min(3, len(wrong_pool)))
         random.shuffle(options)
-        return {"question": question, "correct": correct, "options": options, "type": quiz_type}
+    
+    # Truncate options to fit Telegram 64-byte callback limit
+    correct_short = correct[:20] if len(correct) > 20 else correct
+    options_short = [o[:20] if len(o) > 20 else o for o in options]
+    # Replace correct in options_short
+    for i, o in enumerate(options):
+        if o == correct:
+            options_short[i] = correct_short
+    
+    return {"question": question, "correct": correct_short, "options": options_short, "type": quiz_type}
 
 # ─── ХЭНДЛЕРЫ ─────────────────────────────────────────────────────
 
