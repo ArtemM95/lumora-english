@@ -1242,8 +1242,9 @@ async def quiz_answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
     result_icon = "✅" if is_correct else "❌"
     result_text = f"{result_icon} {'Верно!' if is_correct else f'Неверно. Правильно: *{correct}*'}"
     
-    if current >= total:
+    if current >= total or current >= len(questions):
         # Quiz complete
+        current = total  # Ensure we don't go out of bounds
         pct = round(score / total * 100)
         
         if score == total:
@@ -1320,7 +1321,9 @@ async def quiz_answer_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
     else:
-        # Next question
+        # Next question - safety check
+        if current >= len(questions):
+            current = len(questions) - 1
         next_q = questions[current]
         keyboard = [[InlineKeyboardButton(opt, callback_data=f"qa_{opt[:20]}")] for opt in next_q["options"]]
         
