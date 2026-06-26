@@ -1105,7 +1105,7 @@ async def post_init(app):
     asyncio.create_task(morning_reminder(app))
     asyncio.create_task(evening_reminder(app))
 
-async def openai_tts(text: str, voice: str = "echo") -> bytes:
+async def openai_tts(text: str, voice: str = "echo", speed: float = 0.75) -> bytes:
     """Генерирует аудио через OpenAI TTS, возвращает mp3 байты"""
     import httpx
     api_key = os.environ.get("OPENAI_API_KEY", "")
@@ -1113,7 +1113,7 @@ async def openai_tts(text: str, voice: str = "echo") -> bytes:
         response = await client.post(
             "https://api.openai.com/v1/audio/speech",
             headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-            json={"model": "tts-1", "input": text, "voice": voice, "speed": 0.85}
+            json={"model": "tts-1", "input": text, "voice": voice, "speed": speed}
         )
         response.raise_for_status()
         return response.content
@@ -1145,7 +1145,7 @@ async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TY
     words_text = ". ".join(words_lines) + ". " + phrase
 
     try:
-        audio_words = await openai_tts(words_text, voice="echo")
+        audio_words = await openai_tts(words_text, voice="echo", speed=0.7)
         buf1 = io.BytesIO(audio_words)
         buf1.name = "words.mp3"
         await query.message.reply_voice(
@@ -1173,7 +1173,7 @@ async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TY
     await query.message.reply_text("💬 *Диалог:*", parse_mode="Markdown")
     for role, line, voice in dialogue_parts:
         try:
-            audio_line = await openai_tts(line, voice=voice)
+            audio_line = await openai_tts(line, voice=voice, speed=0.8)
             buf = io.BytesIO(audio_line)
             buf.name = "line.mp3"
             icon = "🗣" if role == "You" else "👤"
