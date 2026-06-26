@@ -649,6 +649,20 @@ QUIZ_MOTIVATIONS_OK = [
     "🎯 Продолжай! С каждым тестом становится легче!",
 ]
 
+# ─── ВЕЧЕРНИЕ НАПОМИНАНИЯ (20:00 МСК) ────────────────────────────
+EVENING_REMINDERS = [
+    "🔍 Агент Lumora докладывает: человек планирует переезд, мечтает о клиентах из Лондона — но английский сегодня не открывал. Подозреваемый найден на диване. Мечта под угрозой.",
+    "🩺 Симптомы: хочет работать с командами из Дубая, жить у моря и строить международный бизнес. Но урок пропустил. Рецепт: 10 минут — и Барселона станет чуть ближе.",
+    "🏋️ Ты собираешься переехать. Новая страна, пляж, свобода. А английский сегодня? Клиенты из Амстердама не будут ждать пока ты раскачаешься.",
+    "🤌 Дон Lumora напоминает: ты собрался уехать и работать с командами из Сингапура. Урок сегодня пропущен. Это неуважение к собственной мечте.",
+    "🚀 Миссия: море, солнце, клиенты со всего мира. Старт запланирован. Сегодняшний урок: не выполнен. До Майами, Лиссабона или Бали — осталось меньше времени чем кажется.",
+    "📺 Previously on Lumora: герой мечтает бросить всё, уехать к морю и работать с клиентами из Токио и Лондона. Сегодняшняя серия: он не открыл бот. Спойлер — так мечты не сбываются.",
+    "🌤 Ты планируешь уехать туда где солнце и море. В Ницце солнце. В Валенсии солнце. Везде там говорят по-английски. Урок сегодня пропущен — совпадение?",
+    "⚖️ Заседание открыто. Обвиняемый планирует покорять мировой рынок, мечтает о клиентах из Дубая — и пропустил урок английского. Приговор: открыть бот прямо сейчас.",
+    "🛰 Спутник Lumora фиксирует: переезд запланирован. До Лиссабона — перелёт. До Бангкока — перелёт. До уверенного английского — 10 минут в день. Сегодня они не были потрачены.",
+    "📋 Ты планируешь переехать, смотреть на море и работать с кем хочешь. Клиенты из Берлина, Дубая и Майами ждут именно таких. Но 10 минут английского сегодня — пропущены. Море подождёт. Мечта — не очень.",
+]
+
 # ─── ХЭНДЛЕРЫ ─────────────────────────────────────────────────────
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1049,9 +1063,46 @@ async def morning_reminder(app):
         except Exception as e:
             logger.error(f"Morning reminder error: {e}")
 
+async def evening_reminder(app):
+    """Напоминание в 20:00 МСК тем кто не прошёл урок сегодня"""
+    MSK = pytz.timezone("Europe/Moscow")
+    while True:
+        now = datetime.now(MSK)
+        target = now.replace(hour=20, minute=0, second=0, microsecond=0)
+        if now >= target:
+            target += timedelta(days=1)
+        await asyncio.sleep((target - now).total_seconds())
+
+        today = datetime.now(MSK).strftime("%Y-%m-%d")
+        try:
+            conn = await asyncpg.connect(DATABASE_URL)
+            users = await conn.fetch("SELECT user_id, first_name, last_day FROM users")
+            await conn.close()
+
+            keyboard = InlineKeyboardMarkup([
+                [InlineKeyboardButton("📚 Урок дня", callback_data="lesson")],
+                [InlineKeyboardButton("🎯 Тест", callback_data="quiz")],
+            ])
+
+            for user in users:
+                if (user["last_day"] or "") == today:
+                    continue
+                try:
+                    message = random.choice(EVENING_REMINDERS)
+                    await app.bot.send_message(
+                        chat_id=user["user_id"],
+                        text=f"{message}\n\n👇 Пройди урок — это 10 минут.",
+                        reply_markup=keyboard
+                    )
+                except Exception as e:
+                    logger.error(f"Evening reminder error for {user['user_id']}: {e}")
+        except Exception as e:
+            logger.error(f"Evening reminder DB error: {e}")
+
 async def post_init(app):
     await init_db()
     asyncio.create_task(morning_reminder(app))
+    asyncio.create_task(evening_reminder(app))
 
 async def vocab_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -1061,23 +1112,35 @@ async def vocab_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not user:
         await query.edit_message_text("Напиши /start чтобы начать.")
         return
-    week_idx = user["current_week"]
-    day_idx = user["current_day"]
-    if week_idx == 0 and day_idx == 0:
-        await query.edit_message_text("Ты ещё не прошёл ни одного урока!", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Назад", callback_data="menu")]]))
+
+    # Используем completed_lessons — обновляется сразу после теста
+    completed_lessons_str = user.get("completed_lessons") or ""
+    completed_list = sorted([l for l in completed_lessons_str.split(",") if l])
+
+    if not completed_list:
+        await query.edit_message_text(
+            "Ты ещё не прошёл ни одного урока!",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Назад", callback_data="menu")]])
+        )
         return
+
     lines = ["📖 *Твой словарик*\n"]
-    for w in range(week_idx + 1):
-        week = WEEKS[w]
-        max_day = day_idx if w == week_idx else 5
-        if max_day == 0 and w == week_idx:
+    prev_week = None
+    for lesson_key in completed_list:
+        try:
+            w, d = map(int, lesson_key.split("_"))
+        except ValueError:
             continue
-        lines.append(f"\n*{week['title']}*")
-        for d in range(max_day):
-            lesson = week["days"][d]
-            lines.append(f"\n_{lesson['topic']}_")
-            for en, ru in lesson["words"]:
-                lines.append(f"• *{en}* — {ru}")
+        if w >= len(WEEKS) or d >= len(WEEKS[w]["days"]):
+            continue
+        if w != prev_week:
+            lines.append(f"\n*{WEEKS[w]['title']}*")
+            prev_week = w
+        lesson = WEEKS[w]["days"][d]
+        lines.append(f"\n_{lesson['topic']}_")
+        for en, ru in lesson["words"]:
+            lines.append(f"• *{en}* — {ru}")
+
     text = "\n".join(lines)
     if len(text) > 4000:
         text = text[:4000] + "\n\n_...показаны первые слова_"
@@ -1258,23 +1321,31 @@ async def vocab_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not user:
         await update.message.reply_text("Напиши /start чтобы начать.")
         return
-    week_idx = user["current_week"]
-    day_idx = user["current_day"]
-    if week_idx == 0 and day_idx == 0:
+
+    completed_lessons_str = user.get("completed_lessons") or ""
+    completed_list = sorted([l for l in completed_lessons_str.split(",") if l])
+
+    if not completed_list:
         await update.message.reply_text("Ты ещё не прошёл ни одного урока. Начни с /start!")
         return
+
     lines = ["📖 *Твой словарик*\n"]
-    for w in range(week_idx + 1):
-        week = WEEKS[w]
-        max_day = day_idx if w == week_idx else 5
-        if max_day == 0 and w == week_idx:
+    prev_week = None
+    for lesson_key in completed_list:
+        try:
+            w, d = map(int, lesson_key.split("_"))
+        except ValueError:
             continue
-        lines.append(f"\n*{week['title']}*")
-        for d in range(max_day):
-            lesson = week["days"][d]
-            lines.append(f"\n_{lesson['topic']}_")
-            for en, ru in lesson["words"]:
-                lines.append(f"• *{en}* — {ru}")
+        if w >= len(WEEKS) or d >= len(WEEKS[w]["days"]):
+            continue
+        if w != prev_week:
+            lines.append(f"\n*{WEEKS[w]['title']}*")
+            prev_week = w
+        lesson = WEEKS[w]["days"][d]
+        lines.append(f"\n_{lesson['topic']}_")
+        for en, ru in lesson["words"]:
+            lines.append(f"• *{en}* — {ru}")
+
     text = "\n".join(lines)
     if len(text) > 4000:
         text = text[:4000] + "\n\n_...показаны первые слова_"
