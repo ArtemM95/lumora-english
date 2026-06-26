@@ -704,7 +704,7 @@ async def lesson_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     week = WEEKS[week_idx]
     phrase = lesson["phrase"]
-    words_text = "\n".join([f"• *{en}* — {ru}" for en, ru in lesson["words"]])
+    words_text = "\n".join([f"• *{en.split(chr(32)+chr(91))[0]}* — {ru}" for en, ru in lesson["words"]])
     dialogue_text = "\n".join([f"_{role}_: {line}" for role, line in lesson["dialogue"]])
     text = (
         f"📚 *{week['title']}*\n"
@@ -1107,7 +1107,6 @@ async def post_init(app):
 
 async def openai_tts(text: str, voice: str = "echo", speed: float = 0.75) -> bytes:
     """Генерирует аудио через OpenAI TTS, возвращает mp3 байты"""
-    import httpx
     api_key = os.environ.get("OPENAI_API_KEY", "")
     async with httpx.AsyncClient(timeout=30) as client:
         response = await client.post(
@@ -1118,8 +1117,30 @@ async def openai_tts(text: str, voice: str = "echo", speed: float = 0.75) -> byt
         response.raise_for_status()
         return response.content
 
+async def generate_word_audio(word: str, speed: float = 0.7) -> bytes:
+    """Слово произносится дважды с паузой 3.5 сек между повторениями"""
+    import io
+    from pydub import AudioSegment
+
+    # Генерируем слово дважды параллельно
+    audio1_bytes, audio2_bytes = await asyncio.gather(
+        openai_tts(word, voice="echo", speed=speed),
+        openai_tts(word, voice="echo", speed=speed),
+    )
+
+    seg1 = AudioSegment.from_file(io.BytesIO(audio1_bytes), format="mp3")
+    seg2 = AudioSegment.from_file(io.BytesIO(audio2_bytes), format="mp3")
+    silence = AudioSegment.silent(duration=3500)  # 3.5 секунды
+
+    combined = seg1 + silence + seg2
+
+    buf = io.BytesIO()
+    combined.export(buf, format="mp3")
+    buf.seek(0)
+    return buf.read()
+
 async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Голосовое произношение: слова + фраза + диалог с двумя голосами"""
+    """Голосовое произношение: каждое слово x2 с паузой + фраза + диалог"""
     query = update.callback_query
     await query.answer("Генерирую аудио... 🎵")
     user_id = query.from_user.id
@@ -1135,48 +1156,50 @@ async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TY
 
     import io
 
-    # ── 1. Слова + фраза (голос echo) ──────────────────────────────
-    words_lines = []
+    # ── 1. Каждое слово отдельным голосовым: слово → пауза 3.5с → слово ──
+    await query.message.reply_text(
+        f"🔊 *{lesson['topic']}* — произношение слов:",
+        parse_mode="Markdown"
+    )
+
     for word_en, word_ru in lesson["words"]:
         clean = word_en.split(" [")[0] if " [" in word_en else word_en
-        words_lines.append(clean)
+        try:
+            audio_bytes = await generate_word_audio(clean, speed=0.7)
+            buf = io.BytesIO(audio_bytes)
+            buf.name = "word.mp3"
+            await query.message.reply_voice(
+                voice=buf,
+                caption=f"🔤 *{clean}* — {word_ru}",
+                parse_mode="Markdown"
+            )
+        except Exception as e:
+            logger.error(f"TTS word error ({clean}): {e}")
 
+    # ── 2. Фраза из фильма (голос echo) ────────────────────────────
     phrase = lesson["phrase"]["text"]
-    words_text = ". ".join(words_lines) + ". " + phrase
-
+    movie = lesson["phrase"]["movie"]
     try:
-        audio_words = await openai_tts(words_text, voice="echo", speed=0.7)
-        buf1 = io.BytesIO(audio_words)
-        buf1.name = "words.mp3"
+        audio_phrase = await openai_tts(phrase, voice="echo", speed=0.8)
+        buf = io.BytesIO(audio_phrase)
+        buf.name = "phrase.mp3"
         await query.message.reply_voice(
-            voice=buf1,
-            caption=f"🔊 *Слова и фраза* — {lesson['topic']}",
+            voice=buf,
+            caption=f"🎬 _{phrase}_\n📽 {movie}",
             parse_mode="Markdown"
         )
     except Exception as e:
-        logger.error(f"TTS words error: {e}")
-        await query.message.reply_text(f"Ошибка аудио слов: {e}")
-        return
+        logger.error(f"TTS phrase error: {e}")
 
-    # ── 2. Диалог с двумя голосами ──────────────────────────────────
-    # You → alloy, все остальные роли → onyx
-    VOICE_YOU = "alloy"
-    VOICE_CLIENT = "onyx"
-
-    dialogue_parts = []
-    for role, line in lesson["dialogue"]:
-        voice = VOICE_YOU if role == "You" else VOICE_CLIENT
-        dialogue_parts.append((role, line, voice))
-
-    # Собираем диалог в одно аудио: чередуем голоса склеивая через httpx
-    # Отправляем каждую реплику отдельным голосовым — так слышна смена голоса
+    # ── 3. Диалог: You → alloy, Client/Host/Person → onyx ──────────
     await query.message.reply_text("💬 *Диалог:*", parse_mode="Markdown")
-    for role, line, voice in dialogue_parts:
+    for role, line in lesson["dialogue"]:
+        voice = "alloy" if role == "You" else "onyx"
+        icon = "🗣" if role == "You" else "👤"
         try:
-            audio_line = await openai_tts(line, voice=voice, speed=0.8)
+            audio_line = await openai_tts(line, voice=voice, speed=0.85)
             buf = io.BytesIO(audio_line)
             buf.name = "line.mp3"
-            icon = "🗣" if role == "You" else "👤"
             await query.message.reply_voice(
                 voice=buf,
                 caption=f"{icon} *{role}:* _{line}_",
@@ -1220,7 +1243,7 @@ async def vocab_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         lesson = WEEKS[w]["days"][d]
         lines.append(f"\n_{lesson['topic']}_")
         for en, ru in lesson["words"]:
-            lines.append(f"• *{en}* — {ru}")
+            lines.append(f"• *{en.split(chr(32)+chr(91))[0]}* — {ru}")
 
     text = "\n".join(lines)
     if len(text) > 4000:
@@ -1267,7 +1290,7 @@ async def review_lesson_handler(update: Update, context: ContextTypes.DEFAULT_TY
         return
     week = WEEKS[week_idx]
     phrase = lesson["phrase"]
-    words_text = "\n".join([f"• *{en}* — {ru}" for en, ru in lesson["words"]])
+    words_text = "\n".join([f"• *{en.split(chr(32)+chr(91))[0]}* — {ru}" for en, ru in lesson["words"]])
     dialogue_text = "\n".join([f"_{role}_: {line}" for role, line in lesson["dialogue"]])
     text = (
         f"🔄 *Повторение*\n"
@@ -1318,7 +1341,7 @@ async def lesson_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     week = WEEKS[user["current_week"]]
     phrase = lesson["phrase"]
-    words_text = "\n".join([f"• *{en}* — {ru}" for en, ru in lesson["words"]])
+    words_text = "\n".join([f"• *{en.split(chr(32)+chr(91))[0]}* — {ru}" for en, ru in lesson["words"]])
     dialogue_text = "\n".join([f"_{role}_: {line}" for role, line in lesson["dialogue"]])
     text = (
         f"📚 *{week['title']}*\n"
@@ -1429,7 +1452,7 @@ async def vocab_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         lesson = WEEKS[w]["days"][d]
         lines.append(f"\n_{lesson['topic']}_")
         for en, ru in lesson["words"]:
-            lines.append(f"• *{en}* — {ru}")
+            lines.append(f"• *{en.split(chr(32)+chr(91))[0]}* — {ru}")
 
     text = "\n".join(lines)
     if len(text) > 4000:
