@@ -718,6 +718,7 @@ async def lesson_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     keyboard = [
         [InlineKeyboardButton("🎯 Пройти тест по уроку", callback_data="quiz_lesson")],
+        [InlineKeyboardButton("🔊 Послушать произношение", callback_data="pronunciation")],
         [InlineKeyboardButton("⬅️ Назад", callback_data="menu")],
     ]
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
@@ -1104,6 +1105,86 @@ async def post_init(app):
     asyncio.create_task(morning_reminder(app))
     asyncio.create_task(evening_reminder(app))
 
+async def openai_tts(text: str, voice: str = "echo") -> bytes:
+    """Генерирует аудио через OpenAI TTS, возвращает mp3 байты"""
+    import httpx
+    api_key = os.environ.get("OPENAI_API_KEY", "")
+    async with httpx.AsyncClient(timeout=30) as client:
+        response = await client.post(
+            "https://api.openai.com/v1/audio/speech",
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            json={"model": "tts-1", "input": text, "voice": voice, "speed": 0.85}
+        )
+        response.raise_for_status()
+        return response.content
+
+async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Голосовое произношение: слова + фраза + диалог с двумя голосами"""
+    query = update.callback_query
+    await query.answer("Генерирую аудио... 🎵")
+    user_id = query.from_user.id
+
+    user = await get_user(user_id)
+    if not user:
+        return
+
+    lesson = get_current_lesson(user["current_week"], user["current_day"])
+    if not lesson:
+        await query.message.reply_text("Урок не найден.")
+        return
+
+    import io
+
+    # ── 1. Слова + фраза (голос echo) ──────────────────────────────
+    words_lines = []
+    for word_en, word_ru in lesson["words"]:
+        clean = word_en.split(" [")[0] if " [" in word_en else word_en
+        words_lines.append(clean)
+
+    phrase = lesson["phrase"]["text"]
+    words_text = ". ".join(words_lines) + ". " + phrase
+
+    try:
+        audio_words = await openai_tts(words_text, voice="echo")
+        buf1 = io.BytesIO(audio_words)
+        buf1.name = "words.mp3"
+        await query.message.reply_voice(
+            voice=buf1,
+            caption=f"🔊 *Слова и фраза* — {lesson['topic']}",
+            parse_mode="Markdown"
+        )
+    except Exception as e:
+        logger.error(f"TTS words error: {e}")
+        await query.message.reply_text(f"Ошибка аудио слов: {e}")
+        return
+
+    # ── 2. Диалог с двумя голосами ──────────────────────────────────
+    # You → alloy, все остальные роли → onyx
+    VOICE_YOU = "alloy"
+    VOICE_CLIENT = "onyx"
+
+    dialogue_parts = []
+    for role, line in lesson["dialogue"]:
+        voice = VOICE_YOU if role == "You" else VOICE_CLIENT
+        dialogue_parts.append((role, line, voice))
+
+    # Собираем диалог в одно аудио: чередуем голоса склеивая через httpx
+    # Отправляем каждую реплику отдельным голосовым — так слышна смена голоса
+    await query.message.reply_text("💬 *Диалог:*", parse_mode="Markdown")
+    for role, line, voice in dialogue_parts:
+        try:
+            audio_line = await openai_tts(line, voice=voice)
+            buf = io.BytesIO(audio_line)
+            buf.name = "line.mp3"
+            icon = "🗣" if role == "You" else "👤"
+            await query.message.reply_voice(
+                voice=buf,
+                caption=f"{icon} *{role}:* _{line}_",
+                parse_mode="Markdown"
+            )
+        except Exception as e:
+            logger.error(f"TTS dialogue error ({role}): {e}")
+
 async def vocab_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
@@ -1249,7 +1330,11 @@ async def lesson_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"💡 {phrase['meaning']}\n\n"
         f"*💬 Диалог:*\n{dialogue_text}"
     )
-    keyboard = [[InlineKeyboardButton("🎯 Пройти тест по уроку", callback_data="quiz_lesson")], [InlineKeyboardButton("⬅️ Назад", callback_data="menu")]]
+    keyboard = [
+        [InlineKeyboardButton("🎯 Пройти тест по уроку", callback_data="quiz_lesson")],
+        [InlineKeyboardButton("🔊 Послушать произношение", callback_data="pronunciation")],
+        [InlineKeyboardButton("⬅️ Назад", callback_data="menu")],
+    ]
     await update.message.reply_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def quiz_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1372,6 +1457,7 @@ def main():
     app.add_handler(CallbackQueryHandler(review_lesson_handler, pattern="^review_\\d+_\\d+$"))
     app.add_handler(CallbackQueryHandler(quiz_review_handler, pattern="^quiz_review_"))
     app.add_handler(CallbackQueryHandler(vocab_handler, pattern="^vocab$"))
+    app.add_handler(CallbackQueryHandler(pronunciation_handler, pattern="^pronunciation$"))
     logger.info("Lumora English Bot started!")
     app.run_polling(drop_pending_updates=True)
 
