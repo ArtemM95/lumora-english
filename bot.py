@@ -583,6 +583,61 @@ def get_current_lesson(week_idx, day_idx):
         import random as _random
         return _random.choice(days)
 
+def get_lesson_by_position(week_idx: int, day_idx: int):
+    """Return a stable lesson by its course position."""
+    if week_idx < 0 or week_idx >= len(WEEKS):
+        return None
+    days = WEEKS[week_idx]["days"]
+    if day_idx < 0 or day_idx >= len(days):
+        return None
+    return days[day_idx]
+
+def resolve_lesson_day(week_idx: int, requested_day: int, lesson) -> int:
+    """Resolve weekend random lessons to their real day index."""
+    days = WEEKS[week_idx]["days"]
+    if 0 <= requested_day < len(days) and days[requested_day] is lesson:
+        return requested_day
+    for index, candidate in enumerate(days):
+        if candidate is lesson:
+            return index
+    return 0
+
+def clean_english(raw: str) -> str:
+    return raw.split(" [", 1)[0] if " [" in raw else raw
+
+def lesson_audio_keyboard(week_idx: int, day_idx: int, lesson):
+    """Create one audio callback button for every lesson item."""
+    keyboard = []
+    words = lesson.get("words", [])
+    for index in range(0, len(words), 2):
+        row = []
+        for word_index in range(index, min(index + 2, len(words))):
+            label = clean_english(words[word_index][0])
+            if len(label) > 24:
+                label = label[:21] + "…"
+            row.append(InlineKeyboardButton(
+                f"🔊 {label}",
+                callback_data=f"audio_w_{week_idx}_{day_idx}_{word_index}"
+            ))
+        keyboard.append(row)
+
+    if lesson.get("phrase"):
+        keyboard.append([InlineKeyboardButton(
+            "🎬 Фраза",
+            callback_data=f"audio_p_{week_idx}_{day_idx}_0"
+        )])
+
+    dialogue = lesson.get("dialogue", [])
+    if dialogue:
+        keyboard.append([
+            InlineKeyboardButton(
+                f"💬 {role} {line_index + 1}",
+                callback_data=f"audio_d_{week_idx}_{day_idx}_{line_index}"
+            )
+            for line_index, (role, _) in enumerate(dialogue)
+        ])
+    return keyboard
+
 def generate_quiz(lesson, quiz_type=None):
     words = lesson["words"]
     if not quiz_type:
@@ -716,9 +771,9 @@ async def lesson_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"💡 {phrase['meaning']}\n\n"
         f"*💬 Диалог:*\n{dialogue_text}"
     )
-    keyboard = [
+    audio_day_idx = resolve_lesson_day(week_idx, day_idx, lesson)
+    keyboard = lesson_audio_keyboard(week_idx, audio_day_idx, lesson) + [
         [InlineKeyboardButton("🎯 Пройти тест по уроку", callback_data="quiz_lesson")],
-        [InlineKeyboardButton("🔊 Послушать произношение", callback_data="pronunciation")],
         [InlineKeyboardButton("⬅️ Назад", callback_data="menu")],
     ]
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
@@ -1140,30 +1195,32 @@ async def generate_word_audio(word: str, speed: float = 0.7) -> bytes:
     return buf.read()
 
 async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Голосовое произношение: каждое слово x2 с паузой + фраза + диалог"""
+    """Generate only the lesson audio item selected by the user."""
     query = update.callback_query
-    await query.answer("Генерирую аудио... 🎵")
-    user_id = query.from_user.id
+    await query.answer("Генерирую выбранное аудио… 🎵")
 
-    user = await get_user(user_id)
-    if not user:
+    try:
+        _, item_type, week_raw, day_raw, item_raw = query.data.split("_")
+        week_idx = int(week_raw)
+        day_idx = int(day_raw)
+        item_index = int(item_raw)
+    except (ValueError, TypeError):
+        await query.message.reply_text("Не удалось определить аудиофрагмент.")
         return
 
-    lesson = get_current_lesson(user["current_week"], user["current_day"])
+    lesson = get_lesson_by_position(week_idx, day_idx)
     if not lesson:
         await query.message.reply_text("Урок не найден.")
         return
 
     import io
 
-    # ── 1. Каждое слово отдельным голосовым: слово → пауза 3.5с → слово ──
-    await query.message.reply_text(
-        f"🔊 *{lesson['topic']}* — произношение слов:",
-        parse_mode="Markdown"
-    )
-
-    for word_en, word_ru in lesson["words"]:
-        clean = word_en.split(" [")[0] if " [" in word_en else word_en
+    if item_type == "w":
+        if item_index < 0 or item_index >= len(lesson.get("words", [])):
+            await query.message.reply_text("Слово не найдено.")
+            return
+        word_en, word_ru = lesson["words"][item_index]
+        clean = clean_english(word_en)
         try:
             audio_bytes = await generate_word_audio(clean, speed=0.7)
             buf = io.BytesIO(audio_bytes)
@@ -1175,25 +1232,35 @@ async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TY
             )
         except Exception as e:
             logger.error(f"TTS word error ({clean}): {e}")
+            await query.message.reply_text("Не удалось создать аудио. Попробуй ещё раз.")
+        return
 
-    # ── 2. Фраза из фильма (голос echo) ────────────────────────────
-    phrase = lesson["phrase"]["text"]
-    movie = lesson["phrase"]["movie"]
-    try:
-        audio_phrase = await openai_tts(phrase, voice="echo", speed=0.8)
-        buf = io.BytesIO(audio_phrase)
-        buf.name = "phrase.mp3"
-        await query.message.reply_voice(
-            voice=buf,
-            caption=f"🎬 _{phrase}_\n📽 {movie}",
-            parse_mode="Markdown"
-        )
-    except Exception as e:
-        logger.error(f"TTS phrase error: {e}")
+    if item_type == "p":
+        phrase_data = lesson.get("phrase", {})
+        phrase = phrase_data.get("text", "")
+        if not phrase:
+            await query.message.reply_text("Фраза не найдена.")
+            return
+        try:
+            audio_phrase = await openai_tts(phrase, voice="echo", speed=0.8)
+            buf = io.BytesIO(audio_phrase)
+            buf.name = "phrase.mp3"
+            await query.message.reply_voice(
+                voice=buf,
+                caption=f"🎬 _{phrase}_\n📽 {phrase_data.get('movie', '')}",
+                parse_mode="Markdown"
+            )
+        except Exception as e:
+            logger.error(f"TTS phrase error: {e}")
+            await query.message.reply_text("Не удалось создать аудио. Попробуй ещё раз.")
+        return
 
-    # ── 3. Диалог: You → alloy, Client/Host/Person → onyx ──────────
-    await query.message.reply_text("💬 *Диалог:*", parse_mode="Markdown")
-    for role, line in lesson["dialogue"]:
+    if item_type == "d":
+        dialogue = lesson.get("dialogue", [])
+        if item_index < 0 or item_index >= len(dialogue):
+            await query.message.reply_text("Реплика не найдена.")
+            return
+        role, line = dialogue[item_index]
         voice = "alloy" if role == "You" else "onyx"
         icon = "🗣" if role == "You" else "👤"
         try:
@@ -1207,6 +1274,10 @@ async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TY
             )
         except Exception as e:
             logger.error(f"TTS dialogue error ({role}): {e}")
+            await query.message.reply_text("Не удалось создать аудио. Попробуй ещё раз.")
+        return
+
+    await query.message.reply_text("Неизвестный тип аудио.")
 
 async def vocab_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -1302,7 +1373,7 @@ async def review_lesson_handler(update: Update, context: ContextTypes.DEFAULT_TY
         f"💡 {phrase['meaning']}\n\n"
         f"*💬 Диалог:*\n{dialogue_text}"
     )
-    keyboard = [
+    keyboard = lesson_audio_keyboard(week_idx, day_idx, lesson) + [
         [InlineKeyboardButton("🎯 Тест по этому уроку", callback_data=f"quiz_review_{week_idx}_{day_idx}")],
         [InlineKeyboardButton("⬅️ К списку уроков", callback_data="review")],
         [InlineKeyboardButton("🏠 Меню", callback_data="menu")],
@@ -1353,9 +1424,9 @@ async def lesson_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"💡 {phrase['meaning']}\n\n"
         f"*💬 Диалог:*\n{dialogue_text}"
     )
-    keyboard = [
+    audio_day_idx = resolve_lesson_day(user["current_week"], user["current_day"], lesson)
+    keyboard = lesson_audio_keyboard(user["current_week"], audio_day_idx, lesson) + [
         [InlineKeyboardButton("🎯 Пройти тест по уроку", callback_data="quiz_lesson")],
-        [InlineKeyboardButton("🔊 Послушать произношение", callback_data="pronunciation")],
         [InlineKeyboardButton("⬅️ Назад", callback_data="menu")],
     ]
     await update.message.reply_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
@@ -1480,7 +1551,10 @@ def main():
     app.add_handler(CallbackQueryHandler(review_lesson_handler, pattern="^review_\\d+_\\d+$"))
     app.add_handler(CallbackQueryHandler(quiz_review_handler, pattern="^quiz_review_"))
     app.add_handler(CallbackQueryHandler(vocab_handler, pattern="^vocab$"))
-    app.add_handler(CallbackQueryHandler(pronunciation_handler, pattern="^pronunciation$"))
+    app.add_handler(CallbackQueryHandler(
+        pronunciation_handler,
+        pattern=r"^audio_[wpd]_\d+_\d+_\d+$"
+    ))
     logger.info("Lumora English Bot started!")
     app.run_polling(drop_pending_updates=True)
 
