@@ -1160,34 +1160,60 @@ async def post_init(app):
     asyncio.create_task(morning_reminder(app))
     asyncio.create_task(evening_reminder(app))
 
-async def openai_tts(text: str, voice: str = "echo", speed: float = 0.75) -> bytes:
-    """Генерирует аудио через OpenAI TTS, возвращает mp3 байты"""
+async def openai_tts(
+    text: str,
+    voice: str = "cedar",
+    instructions: str = "",
+    speed: float = 1.0,
+) -> bytes:
+    """Generate natural educational speech with the instruction-capable TTS model."""
     api_key = os.environ.get("OPENAI_API_KEY", "")
-    async with httpx.AsyncClient(timeout=30) as client:
+    payload = {
+        "model": "gpt-4o-mini-tts",
+        "input": text,
+        "voice": voice,
+        "speed": speed,
+        "response_format": "mp3",
+    }
+    if instructions:
+        payload["instructions"] = instructions
+    async with httpx.AsyncClient(timeout=60) as client:
         response = await client.post(
             "https://api.openai.com/v1/audio/speech",
             headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-            json={"model": "tts-1", "input": text, "voice": voice, "speed": speed}
+            json=payload,
         )
         response.raise_for_status()
         return response.content
 
-async def generate_word_audio(word: str, speed: float = 0.7) -> bytes:
-    """Слово произносится дважды с паузой 3.5 сек между повторениями"""
+async def generate_word_audio(word: str) -> bytes:
+    """Word x2 with safe leading, middle and trailing silence."""
     import io
     from pydub import AudioSegment
 
-    # Генерируем слово дважды параллельно
-    audio1_bytes, audio2_bytes = await asyncio.gather(
-        openai_tts(word, voice="echo", speed=speed),
-        openai_tts(word, voice="echo", speed=speed),
+    audio_bytes = await openai_tts(
+        word,
+        voice="cedar",
+        speed=1.0,
+        instructions=(
+            "Pronounce exactly the supplied English word or short phrase. "
+            "Speak slowly and very clearly for an A1-A2 English learner, "
+            "with careful natural articulation and a neutral accent. "
+            "Do not add explanations or any extra words."
+        ),
     )
 
-    seg1 = AudioSegment.from_file(io.BytesIO(audio1_bytes), format="mp3")
-    seg2 = AudioSegment.from_file(io.BytesIO(audio2_bytes), format="mp3")
-    silence = AudioSegment.silent(duration=3500)  # 3.5 секунды
-
-    combined = seg1 + silence + seg2
+    spoken = AudioSegment.from_file(io.BytesIO(audio_bytes), format="mp3")
+    leading_silence = AudioSegment.silent(duration=1000)
+    repetition_pause = AudioSegment.silent(duration=3500)
+    trailing_silence = AudioSegment.silent(duration=2000)
+    combined = (
+        leading_silence
+        + spoken
+        + repetition_pause
+        + spoken
+        + trailing_silence
+    )
 
     buf = io.BytesIO()
     combined.export(buf, format="mp3")
@@ -1222,7 +1248,7 @@ async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TY
         word_en, word_ru = lesson["words"][item_index]
         clean = clean_english(word_en)
         try:
-            audio_bytes = await generate_word_audio(clean, speed=0.7)
+            audio_bytes = await generate_word_audio(clean)
             buf = io.BytesIO(audio_bytes)
             buf.name = "word.mp3"
             await query.message.reply_voice(
@@ -1242,7 +1268,16 @@ async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TY
             await query.message.reply_text("Фраза не найдена.")
             return
         try:
-            audio_phrase = await openai_tts(phrase, voice="echo", speed=0.8)
+            audio_phrase = await openai_tts(
+                phrase,
+                voice="marin",
+                speed=1.0,
+                instructions=(
+                    "Speak slowly and clearly at a calm classroom pace for an "
+                    "A1-A2 English learner. Keep natural intonation and careful "
+                    "articulation. Do not add any extra words."
+                ),
+            )
             buf = io.BytesIO(audio_phrase)
             buf.name = "phrase.mp3"
             await query.message.reply_voice(
@@ -1261,10 +1296,20 @@ async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TY
             await query.message.reply_text("Реплика не найдена.")
             return
         role, line = dialogue[item_index]
-        voice = "alloy" if role == "You" else "onyx"
+        voice = "marin" if role == "You" else "cedar"
         icon = "🗣" if role == "You" else "👤"
         try:
-            audio_line = await openai_tts(line, voice=voice, speed=0.85)
+            audio_line = await openai_tts(
+                line,
+                voice=voice,
+                speed=1.0,
+                instructions=(
+                    "Speak this dialogue line slowly, clearly, and naturally for "
+                    "an A1-A2 English lesson. Use a calm conversational tone, "
+                    "careful articulation, and short natural pauses. "
+                    "Do not add any extra words."
+                ),
+            )
             buf = io.BytesIO(audio_line)
             buf.name = "line.mp3"
             await query.message.reply_voice(
