@@ -1271,11 +1271,14 @@ async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TY
             audio_phrase = await openai_tts(
                 phrase,
                 voice="marin",
-                speed=1.0,
+                speed=0.78,
                 instructions=(
-                    "Speak slowly and clearly at a calm classroom pace for an "
-                    "A1-A2 English learner. Keep natural intonation and careful "
-                    "articulation. Do not add any extra words."
+                    "This is listening practice for a beginner A1-A2 English "
+                    "learner. Speak much slower than normal conversation, at "
+                    "approximately 80 to 90 words per minute. Articulate every "
+                    "word fully and insert clear natural pauses between meaning "
+                    "groups. Keep the voice natural, not stretched or robotic. "
+                    "Do not add any extra words."
                 ),
             )
             buf = io.BytesIO(audio_phrase)
@@ -1302,11 +1305,13 @@ async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TY
             audio_line = await openai_tts(
                 line,
                 voice=voice,
-                speed=1.0,
+                speed=0.78,
                 instructions=(
-                    "Speak this dialogue line slowly, clearly, and naturally for "
-                    "an A1-A2 English lesson. Use a calm conversational tone, "
-                    "careful articulation, and short natural pauses. "
+                    "This is a beginner A1-A2 classroom dialogue. Speak much "
+                    "slower than normal conversation, at approximately 80 to 90 "
+                    "words per minute. Articulate every word fully and pause "
+                    "clearly between meaning groups while keeping natural "
+                    "conversational intonation. Do not sound rushed or robotic. "
                     "Do not add any extra words."
                 ),
             )
