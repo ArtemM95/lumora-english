@@ -2,6 +2,7 @@ import logging
 import asyncio
 import os
 import random
+import json
 from datetime import datetime, timedelta
 import pytz
 import asyncpg
@@ -514,6 +515,13 @@ async def init_db():
             completed_at TIMESTAMP DEFAULT NOW()
         )
     """)
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS dialogue_translations (
+            source_text TEXT PRIMARY KEY,
+            translation_ru TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT NOW()
+        )
+    """)
     await conn.close()
     logger.info("Database initialized")
 
@@ -553,6 +561,97 @@ async def save_weekly_result(user_id: int, week: int, score: int, total: int):
         user_id, week, score, total
     )
     await conn.close()
+
+async def get_dialogue_translations(lines):
+    """Return cached Russian translations, generating only missing lines."""
+    source_lines = list(dict.fromkeys(line for _, line in lines))
+    if not source_lines:
+        return {}
+
+    conn = await asyncpg.connect(DATABASE_URL)
+    rows = await conn.fetch(
+        """
+        SELECT source_text, translation_ru
+        FROM dialogue_translations
+        WHERE source_text = ANY($1::text[])
+        """,
+        source_lines,
+    )
+    translations = {row["source_text"]: row["translation_ru"] for row in rows}
+    missing = [line for line in source_lines if line not in translations]
+
+    if missing:
+        try:
+            api_key = os.environ.get("OPENAI_API_KEY", "")
+            async with httpx.AsyncClient(timeout=60) as client:
+                response = await client.post(
+                    "https://api.openai.com/v1/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {api_key}",
+                        "Content-Type": "application/json",
+                    },
+                    json={
+                        "model": "gpt-4o-mini",
+                        "temperature": 0,
+                        "response_format": {"type": "json_object"},
+                        "messages": [
+                            {
+                                "role": "system",
+                                "content": (
+                                    "Translate English business dialogue lines into "
+                                    "clear, natural Russian for a beginner English "
+                                    "learner. Preserve meaning and tone. Return only "
+                                    'JSON: {\"translations\": [\"...\", \"...\"]}, '
+                                    "in exactly the same order as the input."
+                                ),
+                            },
+                            {
+                                "role": "user",
+                                "content": json.dumps(missing, ensure_ascii=False),
+                            },
+                        ],
+                    },
+                )
+                response.raise_for_status()
+                payload = response.json()
+                generated = json.loads(
+                    payload["choices"][0]["message"]["content"]
+                ).get("translations", [])
+
+            if len(generated) != len(missing):
+                raise ValueError("Unexpected translation count")
+
+            for source, translation in zip(missing, generated):
+                translation = str(translation).strip()
+                if not translation:
+                    continue
+                translations[source] = translation
+                await conn.execute(
+                    """
+                    INSERT INTO dialogue_translations (source_text, translation_ru)
+                    VALUES ($1, $2)
+                    ON CONFLICT (source_text)
+                    DO UPDATE SET translation_ru = EXCLUDED.translation_ru
+                    """,
+                    source,
+                    translation,
+                )
+        except Exception as exc:
+            logger.error(f"Dialogue translation error: {exc}")
+        finally:
+            await conn.close()
+    else:
+        await conn.close()
+
+    return translations
+
+async def build_dialogue_text(dialogue):
+    translations = await get_dialogue_translations(dialogue)
+    blocks = []
+    for role, line in dialogue:
+        translation = translations.get(line, "Перевод временно недоступен")
+        blocks.append(f"_{role}_: {line}\n↳ {translation}")
+    return "\n\n".join(blocks)
 
 # ─── ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ──────────────────────────────────────
 
@@ -760,7 +859,7 @@ async def lesson_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     week = WEEKS[week_idx]
     phrase = lesson["phrase"]
     words_text = "\n".join([f"• *{en.split(chr(32)+chr(91))[0]}* — {ru}" for en, ru in lesson["words"]])
-    dialogue_text = "\n".join([f"_{role}_: {line}" for role, line in lesson["dialogue"]])
+    dialogue_text = await build_dialogue_text(lesson["dialogue"])
     text = (
         f"📚 *{week['title']}*\n"
         f"День {day_idx + 1}/7{' 🔄 Повторение' if day_idx >= 5 else ''} — {lesson['topic']}\n\n"
@@ -1317,9 +1416,11 @@ async def pronunciation_handler(update: Update, context: ContextTypes.DEFAULT_TY
             )
             buf = io.BytesIO(audio_line)
             buf.name = "line.mp3"
+            translations = await get_dialogue_translations([(role, line)])
+            translation = translations.get(line, "Перевод временно недоступен")
             await query.message.reply_voice(
                 voice=buf,
-                caption=f"{icon} *{role}:* _{line}_",
+                caption=f"{icon} *{role}:* _{line}_\n↳ {translation}",
                 parse_mode="Markdown"
             )
         except Exception as e:
@@ -1412,7 +1513,7 @@ async def review_lesson_handler(update: Update, context: ContextTypes.DEFAULT_TY
     week = WEEKS[week_idx]
     phrase = lesson["phrase"]
     words_text = "\n".join([f"• *{en.split(chr(32)+chr(91))[0]}* — {ru}" for en, ru in lesson["words"]])
-    dialogue_text = "\n".join([f"_{role}_: {line}" for role, line in lesson["dialogue"]])
+    dialogue_text = await build_dialogue_text(lesson["dialogue"])
     text = (
         f"🔄 *Повторение*\n"
         f"*{week['title']}* — {lesson['topic']}\n\n"
@@ -1463,7 +1564,7 @@ async def lesson_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     week = WEEKS[user["current_week"]]
     phrase = lesson["phrase"]
     words_text = "\n".join([f"• *{en.split(chr(32)+chr(91))[0]}* — {ru}" for en, ru in lesson["words"]])
-    dialogue_text = "\n".join([f"_{role}_: {line}" for role, line in lesson["dialogue"]])
+    dialogue_text = await build_dialogue_text(lesson["dialogue"])
     text = (
         f"📚 *{week['title']}*\n"
         f"День {user['current_day'] + 1}/7 — {lesson['topic']}\n\n"
